@@ -1,0 +1,17 @@
+{
+  "events": [
+     {
+      "date": "2025-07-02",
+      "type": "company",
+      "title": "company",
+      "description": "company",
+      "important": true
+    },
+    {
+      "date": "2025-07-02",
+      "type": "aptamil",
+      "title": "aptamil",
+      "description": "aptamil"
+    }
+  ]
+} 

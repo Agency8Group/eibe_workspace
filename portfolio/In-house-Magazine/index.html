@@ -1,0 +1,4371 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Title & Description (ko/영문, 향후 교체 용이) -->
+        <title>사내 매거진 | In-House Magazine</title>
+
+        <meta
+            name="description"
+            content="최신 사내 소식, 프로젝트, update...., 중요일정 보드 등 실시간으로 확인하는 사내 매거진 플랫폼입니다."
+        />
+
+        <!-- Alternate Languages: hreflang (영문, 일본어 등 필요시 확장) -->
+        <link rel="alternate" href="https://www.eibe.co.kr/" hreflang="ko" />
+        <link rel="alternate" href="https://www.eibe.co.kr/" hreflang="en" />
+        <!-- <link rel="alternate" href="https://YOURDOMAIN.com/ja" hreflang="ja" /> -->
+
+        <!-- favicon & App Icon (최신 표준) -->
+        <link rel="icon" href="./img/eibe.jpg" type="image/jpeg" />
+        <link rel="apple-touch-icon" href="./img/eibe.jpg" />
+
+        <!-- SEO: Canonical -->
+        <link rel="canonical" href="https://www.eibe.co.kr/" />
+
+        <!-- Open Graph: Facebook/Linkedin/카카오 등 -->
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ko_KR" />
+        <meta property="og:title" content="사내 매거진 | In-House Magazine" />
+        <meta
+            property="og:description"
+            content="실시간 사내 이슈, 프로젝트, update...., 중요일정 보드 안내 - In-House Magazine"
+        />
+        <meta property="og:url" content="https://www.eibe.co.kr/" />
+        <meta property="og:image" content="" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="사내 매거진 | In-House Magazine" />
+        <meta
+            name="twitter:description"
+            content="실시간 사내 이슈, 프로젝트, update...., 중요일정 보드 안내 - In-House Magazine"
+        />
+        <meta
+            name="twitter:image"
+            content="https://YOURDOMAIN.com/img/eibe.jpg"
+        />
+
+        <!-- Internationalization: Multi-language 지원 (html lang, direction, 등) -->
+        <meta name="language" content="ko" />
+
+        <!-- Robots/SEO -->
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Eibe Team" />
+        <meta name="copyright" content="Eibe, All rights reserved" />
+
+        <!-- Swiper CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
+
+        <!-- Tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: "#4957f3",
+                            primaryDark: "#2832a2",
+                            surface: "#f7f9fa",
+                            border: "#ebebef",
+                            accent: "#17c684",
+                            textMain: "#23262f",
+                            textSub: "#798092",
+                            darkBg: "#23262f",
+                            darkSurface: "#23262f",
+                            darkText: "#f7f9fa",
+                        },
+                        fontFamily: {
+                            sans: ["Inter", "Noto Sans KR", "sans-serif"],
+                        },
+                        boxShadow: {
+                            card: "0 4px 24px 0 rgba(36, 50, 93, 0.09)",
+                            nav: "0 2px 8px 0 rgba(36,50,93,0.06)",
+                        },
+                        keyframes: {
+                            fadeUp: {
+                                "0%": {
+                                    opacity: "0",
+                                    transform: "translateY(20px)",
+                                },
+                                "100%": {
+                                    opacity: "1",
+                                    transform: "translateY(0)",
+                                },
+                            },
+                            slideIn: {
+                                "0%": {
+                                    opacity: "0",
+                                    transform: "translateX(-20px)",
+                                },
+                                "100%": {
+                                    opacity: "1",
+                                    transform: "translateX(0)",
+                                },
+                            },
+                        },
+                        animation: {
+                            fadeUp: "fadeUp 0.5s ease-out",
+                            slideIn: "slideIn 0.5s ease-out",
+                        },
+                    },
+                },
+            };
+        </script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+KR:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <script
+            src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+            type="module"
+        ></script>
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <style>
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                background: #f7f9fa;
+            }
+            .glass {
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(8px) saturate(120%);
+                -webkit-backdrop-filter: blur(8px) saturate(120%);
+            }
+            .fade-section {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.5s ease-out;
+                will-change: opacity, transform;
+            }
+            .fade-section.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .nav-active {
+                background: linear-gradient(90deg, #4957f3 60%, #17c684 100%);
+                color: #fff !important;
+                box-shadow: 0 2px 8px 0 rgba(36, 50, 93, 0.08);
+            }
+            .faq-ans {
+                max-height: 0;
+                opacity: 0;
+                transition: all 0.3s ease-out;
+                overflow: hidden;
+            }
+            .faq-ans.show {
+                max-height: 500px;
+                opacity: 1;
+            }
+            .dark body,
+            .dark .glass,
+            .dark .bg-white,
+            .dark .bg-surface {
+                background: #23262f !important;
+                color: #f7f9fa !important;
+            }
+            .dark .border-border {
+                border-color: #343849 !important;
+            }
+            .dark .shadow-card {
+                box-shadow: 0 4px 24px 0 rgba(30, 40, 90, 0.15);
+            }
+            .dark .text-textMain {
+                color: #f7f9fa !important;
+            }
+            .dark .text-textSub {
+                color: #bfc2cc !important;
+            }
+
+            /* 성능 최적화 */
+            .card-anim {
+                will-change: transform;
+                transform: translateZ(0);
+            }
+
+            /* 이미지 최적화 */
+            .photobooth-image {
+                will-change: transform, filter;
+                transform: translateZ(0);
+            }
+
+            /* Swiper 최적화 */
+            .swiper-slide {
+                will-change: transform;
+            }
+
+            /* 모바일 터치 최적화 */
+            @media (max-width: 768px) {
+                .swiper-button-next,
+                .swiper-button-prev {
+                    display: none !important;
+                }
+            }
+
+            /* 접근성 개선 */
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+
+            /* 히어로 섹션 강화 애니메이션 */
+            @keyframes gradientShift {
+                0%,
+                100% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+            }
+
+            @keyframes titleEntrance {
+                0% {
+                    opacity: 0;
+                    transform: translateY(60px) scale(0.8);
+                    filter: blur(10px);
+                }
+                50% {
+                    opacity: 0.7;
+                    transform: translateY(20px) scale(0.95);
+                    filter: blur(5px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                    filter: blur(0);
+                }
+            }
+
+            /* 강화된 호버 효과 */
+            .hero-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                will-change: transform, box-shadow;
+            }
+
+            .hero-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            }
+
+            /* CTA 버튼 강화 */
+            .cta-button {
+                background: linear-gradient(135deg, #4957f3 0%, #17c684 100%);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                will-change: transform, box-shadow;
+            }
+
+            .cta-button:hover {
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 20px 40px rgba(73, 87, 243, 0.4);
+            }
+
+            /* 강화된 그림자 */
+            .shadow-3xl {
+                box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+            }
+
+            /* 움직이는 배경 요소 */
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-20px);
+                }
+            }
+
+            .floating-bg {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* 강화된 펄스 효과 */
+            @keyframes enhancedPulse {
+                0%,
+                100% {
+                    opacity: 0.3;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 0.6;
+                    transform: scale(1.1);
+                }
+            }
+
+            .enhanced-pulse {
+                animation: enhancedPulse 3s ease-in-out infinite;
+            }
+
+            /* 웨이브 애니메이션 */
+            @keyframes waveFloat {
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
+                25% {
+                    transform: translateY(-8px);
+                }
+                50% {
+                    transform: translateY(-4px);
+                }
+                75% {
+                    transform: translateY(-12px);
+                }
+            }
+
+            .wave-card {
+                animation: waveFloat 4s ease-in-out infinite;
+                will-change: transform;
+            }
+
+            .wave-card:nth-child(1) {
+                animation-delay: 0s;
+            }
+
+            .wave-card:nth-child(2) {
+                animation-delay: 1s;
+            }
+
+            .wave-card:nth-child(3) {
+                animation-delay: 2s;
+            }
+
+            .wave-card:nth-child(4) {
+                animation-delay: 3s;
+            }
+
+            .dark .text-textSub {
+                color: #bfc2cc !important;
+            }
+
+            /* 히어로 카드 다크모드 지원 */
+            .dark .bg-white\/90 {
+                background: rgba(35, 38, 47, 0.9) !important;
+                border-color: #343849 !important;
+            }
+
+            .dark .wave-card {
+                background: rgba(35, 38, 47, 0.9) !important;
+                border-color: #343849 !important;
+                color: #f7f9fa !important;
+            }
+
+            .dark .wave-card .text-textSub {
+                color: #bfc2cc !important;
+            }
+
+            /* Brand Logo Redesign */
+            .brand-logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.2rem;
+                height: 2.2rem;
+                border-radius: 9999px;
+                font-weight: 700;
+                color: white;
+                text-decoration: none;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                opacity: 0.85;
+            }
+            .brand-logo > span {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .brand-logo .initial {
+                opacity: 1;
+                font-size: 1.1rem;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            .brand-logo .full-name {
+                opacity: 0;
+                font-size: 0.7rem;
+                font-weight: 600;
+                white-space: nowrap;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            .brand-logo:hover {
+                width: 5rem;
+                border-radius: 1rem;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+                opacity: 1;
+            }
+            .brand-logo:hover .initial {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            .brand-logo:hover .full-name {
+                opacity: 0.9;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            .brand-logo-e {
+                background: linear-gradient(45deg, #10b981, #34d399);
+            }
+            .brand-logo-d {
+                background: linear-gradient(45deg, #27272a, #d3ac4e);
+            }
+            .brand-logo-n {
+                background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            }
+            .brand-logo-b {
+                background: linear-gradient(45deg, #f97316, #facc15);
+                color: #422006;
+            }
+
+            /* Enhanced Dark Mode Toggle */
+            .dark-toggle-container {
+                position: relative;
+                width: 3rem;
+                height: 3rem;
+                perspective: 1000px;
+            }
+
+            .dark-toggle-btn {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                border: 2px solid #e2e8f0;
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            }
+
+            .dark-toggle-btn::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-radius: 50%;
+                opacity: 0;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                transform: scale(0.8);
+            }
+
+            .dark-toggle-btn:hover {
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            }
+
+            .dark-toggle-btn:active {
+                transform: translateY(0) scale(0.95);
+            }
+
+            .dark-toggle-btn.dark {
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                border-color: #475569;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            }
+
+            .dark-toggle-btn.dark::before {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .dark-toggle-btn.dark:hover {
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            }
+
+            .toggle-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 1.25rem;
+                height: 1.25rem;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 2;
+            }
+
+            .toggle-icon svg {
+                width: 100%;
+                height: 100%;
+                transition: all 0.3s ease;
+            }
+
+            .moon-icon {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+                color: #475569;
+            }
+
+            .sun-icon {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
+                color: #fbbf24;
+            }
+
+            .dark-toggle-btn.dark .moon-icon {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(-90deg) scale(0.5);
+            }
+
+            .dark-toggle-btn.dark .sun-icon {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+
+            /* Ripple effect */
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            /* Floating particles for dark mode */
+            .dark-toggle-btn.dark::after {
+                content: "";
+                position: absolute;
+                top: 20%;
+                left: 20%;
+                width: 2px;
+                height: 2px;
+                background: #fbbf24;
+                border-radius: 50%;
+                animation: float-particle 3s ease-in-out infinite;
+            }
+
+            @keyframes float-particle {
+                0%,
+                100% {
+                    transform: translateY(0px) scale(1);
+                    opacity: 0.7;
+                }
+                50% {
+                    transform: translateY(-8px) scale(1.2);
+                    opacity: 1;
+                }
+            }
+
+            /* Pulse animation for active state */
+            .dark-toggle-btn.pulse {
+                animation: pulse-animation 0.6s ease-out;
+            }
+
+            @keyframes pulse-animation {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.1);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            /* Dark mode transition for the entire page */
+            body {
+                transition: background-color 0.4s ease, color 0.4s ease;
+            }
+
+            .dark body {
+                background: #0f172a !important;
+            }
+
+            /* Enhanced dark mode styles for existing elements */
+            .dark .dark-toggle-container {
+                filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+            }
+
+            /* 개선된 스크롤 마진 (모바일 대응) */
+            .scroll-mt-28 {
+                scroll-margin-top: 7rem; /* 112px - 데스크톱 */
+            }
+
+            @media (max-width: 768px) {
+                .scroll-mt-28 {
+                    scroll-margin-top: 8rem; /* 128px - 모바일 */
+                }
+            }
+
+            @media (max-width: 480px) {
+                .scroll-mt-28 {
+                    scroll-margin-top: 9rem; /* 144px - 작은 모바일 */
+                }
+            }
+
+            /* 새로고침 버튼 애니메이션 */
+            #refreshComments svg {
+                transition: transform 0.5s ease-in-out;
+            }
+
+            #refreshComments:active svg {
+                transform: rotate(180deg) !important;
+            }
+
+            #refreshComments:hover {
+                transform: scale(1.05);
+            }
+
+            #refreshComments:disabled {
+                cursor: not-allowed;
+                transform: none !important;
+            }
+
+            /* 새로고침 버튼 로딩 상태 */
+            #refreshComments.loading {
+                pointer-events: none;
+            }
+
+            #refreshComments.loading svg {
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* 댓글 시스템 스타일 */
+            .comment-container {
+                height: 300px; /* 데스크톱 기본 높이 */
+                overflow-y: auto;
+                overflow-x: hidden;
+                scrollbar-width: thin;
+                scrollbar-color: #cbd5e1 #f1f5f9;
+                position: relative;
+                -webkit-overflow-scrolling: touch; /* iOS 스크롤 최적화 */
+                overscroll-behavior: contain; /* 스크롤 체이닝 방지 */
+                touch-action: pan-y; /* 세로 스크롤만 허용 */
+            }
+
+            /* 모바일에서 댓글 컨테이너 높이 조정 */
+            @media (max-width: 768px) {
+                .comment-container {
+                    height: 250px; /* 모바일에서는 더 작게 */
+                    -webkit-overflow-scrolling: touch; /* iOS 스크롤 최적화 */
+                    touch-action: pan-y; /* 세로 스크롤만 허용 */
+                    overscroll-behavior: contain; /* 스크롤 체이닝 방지 */
+                    position: relative;
+                    z-index: 1; /* 터치 이벤트 우선순위 */
+                }
+            }
+
+            /* 작은 모바일 화면 */
+            @media (max-width: 480px) {
+                .comment-container {
+                    height: 200px; /* 작은 화면에서는 더 작게 */
+                    -webkit-overflow-scrolling: touch;
+                    touch-action: pan-y;
+                    overscroll-behavior: contain;
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+
+            /* 매우 작은 화면 */
+            @media (max-width: 360px) {
+                .comment-container {
+                    height: 180px;
+                    -webkit-overflow-scrolling: touch;
+                    touch-action: pan-y;
+                    overscroll-behavior: contain;
+                }
+            }
+
+            .comment-container::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .comment-container::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 3px;
+            }
+
+            .comment-container::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 3px;
+            }
+
+            .comment-container::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+
+            /* 댓글 입력 폼 스타일 */
+            .comment-form {
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(235, 235, 239, 0.5);
+                border-radius: 12px;
+                padding: 16px;
+                margin-top: 16px;
+            }
+
+            .comment-input-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            @media (min-width: 640px) {
+                .comment-input-group {
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 12px;
+                }
+            }
+
+            .comment-input {
+                flex: 1;
+                padding: 8px 12px;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.2s ease;
+            }
+
+            .comment-input:focus {
+                outline: none;
+                border-color: #4957f3;
+                box-shadow: 0 0 0 3px rgba(73, 87, 243, 0.1);
+            }
+
+            .comment-textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 14px;
+                resize: vertical;
+                min-height: 80px;
+                transition: border-color 0.2s ease;
+            }
+
+            .comment-textarea:focus {
+                outline: none;
+                border-color: #4957f3;
+                box-shadow: 0 0 0 3px rgba(73, 87, 243, 0.1);
+            }
+
+            /* 다크모드 댓글 스타일 */
+            .dark .comment-form {
+                background: rgba(35, 38, 47, 0.8);
+                border-color: rgba(52, 56, 73, 0.5);
+            }
+
+            .dark .comment-input,
+            .dark .comment-textarea {
+                background: rgba(35, 38, 47, 0.9);
+                border-color: #475569;
+                color: #f7f9fa;
+            }
+
+            .dark .comment-input:focus,
+            .dark .comment-textarea:focus {
+                border-color: #4957f3;
+            }
+
+            /* 인물사진 호버 효과 */
+            .person-image-container {
+                position: relative;
+                display: inline-block;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                cursor: pointer;
+            }
+
+            .person-image-container:hover {
+                transform: scale(1.7);
+                z-index: 50;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .person-image {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                cursor: pointer;
+            }
+
+            /* 호버 시 배경 어둡게 처리 */
+            .person-image-container:hover::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 40;
+                pointer-events: none;
+            }
+
+            /* 다크모드에서의 호버 효과 */
+            .dark .person-image-container:hover {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            }
+
+            .dark .person-image-container:hover::before {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            /* EIBE M.V.P 카드 호버 효과 제거 - 카드 자체는 움직이지 않음 */
+            .glass.rounded-2xl.shadow-card.border.border-border\/50.p-6.flex.flex-col.gap-3.card-anim.animate-slideIn.group.relative.overflow-hidden:hover {
+                transform: none !important;
+                box-shadow: 0 4px 24px 0 rgba(36, 50, 93, 0.09) !important;
+            }
+
+            /* EIBE M.V.P 카드 전체 호버 시 인물사진 확대 */
+            .glass.rounded-2xl.shadow-card.border.border-border\/50.p-6.flex.flex-col.gap-3.card-anim.animate-slideIn.group.relative.overflow-hidden:hover
+                .person-image-container {
+                transform: scale(1.7);
+                z-index: 100;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .glass.rounded-2xl.shadow-card.border.border-border\/50.p-6.flex.flex-col.gap-3.card-anim.animate-slideIn.group.relative.overflow-hidden:hover
+                .person-image-container::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 90;
+                pointer-events: none;
+            }
+
+            /* 다크모드에서의 EIBE M.V.P 카드 호버 효과 */
+            .dark
+                .glass.rounded-2xl.shadow-card.border.border-border\/50.p-6.flex.flex-col.gap-3.card-anim.animate-slideIn.group.relative.overflow-hidden:hover
+                .person-image-container {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            }
+
+            .dark
+                .glass.rounded-2xl.shadow-card.border.border-border\/50.p-6.flex.flex-col.gap-3.card-anim.animate-slideIn.group.relative.overflow-hidden:hover
+                .person-image-container::before {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            /* 다크모드에서 댓글 테두리 제거 */
+            .dark .comment-item {
+                border: none !important;
+                background: rgba(35, 38, 47, 0.6) !important;
+            }
+
+            /* 댓글 성능 최적화 - 가상화 스타일 */
+            .comment-virtual-container {
+                height: 300px; /* 데스크톱 기본 높이 */
+                overflow-y: auto;
+                position: relative;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+                touch-action: pan-y;
+            }
+
+            /* 모바일에서 가상화 컨테이너 높이 조정 */
+            @media (max-width: 768px) {
+                .comment-virtual-container {
+                    height: 250px;
+                    -webkit-overflow-scrolling: touch;
+                    overscroll-behavior: contain;
+                    touch-action: pan-y;
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .comment-virtual-container {
+                    height: 200px;
+                    -webkit-overflow-scrolling: touch;
+                    overscroll-behavior: contain;
+                    touch-action: pan-y;
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+
+            .comment-virtual-list {
+                position: relative;
+            }
+
+            .comment-virtual-item {
+                position: absolute;
+                width: 100%;
+                left: 0;
+                right: 0;
+            }
+
+            /* 댓글 페이지네이션 */
+            .comment-pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                margin-top: 16px;
+                padding: 12px;
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 12px;
+                backdrop-filter: blur(8px);
+            }
+
+            .dark .comment-pagination {
+                background: rgba(35, 38, 47, 0.8);
+            }
+
+            .pagination-btn {
+                padding: 6px 12px;
+                border: 1px solid #e2e8f0;
+                background: white;
+                border-radius: 8px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .dark .pagination-btn {
+                border-color: #475569;
+                background: rgba(35, 38, 47, 0.9);
+                color: #f7f9fa;
+            }
+
+            .pagination-btn:hover:not(:disabled) {
+                background: #f8fafc;
+                border-color: #4957f3;
+            }
+
+            .dark .pagination-btn:hover:not(:disabled) {
+                background: rgba(73, 87, 243, 0.1);
+                border-color: #4957f3;
+            }
+
+            .pagination-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .pagination-info {
+                font-size: 14px;
+                color: #64748b;
+            }
+
+            .dark .pagination-info {
+                color: #94a3b8;
+            }
+
+            /* 다크모드 새로고침 버튼 스타일 */
+            .dark #refreshComments {
+                background: rgba(35, 38, 47, 0.9) !important;
+                border-color: #475569 !important;
+                color: #f7f9fa !important;
+            }
+            .dark #refreshComments:hover {
+                background: rgba(73, 87, 243, 0.1) !important;
+                color: #a5b4fc !important;
+            }
+            .dark #refreshComments:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            /* 다크모드에서 댓글 아이템 모바일 터치 최적화 */
+            .comment-item {
+                touch-action: manipulation; /* 터치 최적화 */
+                -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+                user-select: none; /* 텍스트 선택 방지 */
+            }
+
+            .comment-item * {
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            /* 댓글 내부 텍스트는 선택 가능하도록 */
+            .comment-item p,
+            .comment-item span {
+                user-select: text;
+                -webkit-user-select: text;
+            }
+        </style>
+    </head>
+    <body
+        class="bg-surface text-textMain font-sans transition-colors duration-200"
+    >
+        <img src="./img/eibe.jpg" alt="대표 이미지" style="display: none" />
+        <!-- 공지 팝업 -->
+        <div
+            id="popup"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+        >
+            <div
+                class="glass rounded-2xl shadow-2xl p-8 max-w-md w-[95vw] text-center border border-border animate-fadeUp"
+            >
+                <!-- Lottie 애니메이션 추가 -->
+                <div class="flex justify-center mb-4">
+                    <dotlottie-player
+                        src="https://lottie.host/8cb11ff1-b77e-4f01-b51f-be8c3fc0be85/4G0BOskz5P.lottie"
+                        background="transparent"
+                        speed="1"
+                        style="width: 150px; height: 150px"
+                        loop
+                        autoplay
+                    ></dotlottie-player>
+                </div>
+
+                <h2 class="text-lg font-bold mb-2 tracking-tight">공지사항</h2>
+                <p class="mb-4 text-textSub text-base">
+                    7월 Connect Day 행사 일정이 확정되었습니다.<br />
+                    즐겁고 편안한 시간 되시길 바랍니다.
+                </p>
+                <button
+                    onclick="document.getElementById('popup').remove()"
+                    class="inline-block mt-1 px-6 py-2 rounded-full bg-primary hover:bg-primaryDark text-white font-semibold transition shadow btn-anim"
+                >
+                    닫기
+                </button>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header
+            class="bg-white shadow-nav sticky top-0 z-30 border-b border-border backdrop-blur-lg bg-opacity-95"
+        >
+            <div
+                class="max-w-5xl mx-auto flex items-center justify-between pt-7 pb-5 px-4"
+            >
+                <!-- 로고 -->
+                <h1
+                    id="mainLogo"
+                    class="flex items-center text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text mb-0 select-none transition hover:opacity-80 cursor-pointer"
+                    title="맨 위로 이동"
+                    style="user-select: none"
+                >
+                    We are EIBE
+                    <!-- 스피커 로티 span -->
+                </h1>
+                <!-- 우측: 다크모드/알림 -->
+                <div class="flex items-center gap-3">
+                    <!-- 이미지+링크 버튼 1 -->
+                    <a
+                        href="http://www.eibe.co.kr/"
+                        target="_blank"
+                        class="hidden sm:flex brand-logo brand-logo-e"
+                        title="Eibe 홈페이지"
+                    >
+                        <span class="initial">E</span>
+                        <span class="full-name">EIBE</span>
+                    </a>
+                    <!-- 이미지+링크 버튼 2 (Dreame) -->
+                    <a
+                        href="https://brand.naver.com/dreame"
+                        target="_blank"
+                        class="hidden sm:flex brand-logo brand-logo-d"
+                        title="Dreame 브랜드 스토어"
+                    >
+                        <span class="initial">D</span>
+                        <span class="full-name">Dreame</span>
+                    </a>
+                    <!-- 이미지+링크 버튼 3 (Nutricia) -->
+                    <a
+                        href="https://www.nutriciastore.co.kr/"
+                        target="_blank"
+                        class="hidden sm:flex brand-logo brand-logo-n"
+                        title="Nutricia 스토어"
+                    >
+                        <span class="initial">N</span>
+                        <span class="full-name">Nutricia</span>
+                    </a>
+                    <!-- 이미지+링크 버튼 4 (Brighton) -->
+                    <a
+                        href="https://brightonmall.co.kr/?utm_source=google&utm_medium=sa&utm_campaign=pc&utm_content=brand_checked_main&utm_term=%EB%B8%8C%EB%9D%BC%EC%9D%B4%ED%8A%BC%EB%AA%B0&gad_source=1&gad_campaignid=22371354396&gbraid=0AAAAA_HbwrYQF5JQjH-vQt0ivyh1RY9lz&gclid=Cj0KCQjwjdTCBhCLARIsAEu8bpI_DuvREPWuDTSViv535X6u5VlRtqdWQqrlQsMSD-7pGWq_rnQVYQgaAipCEALw_wcB"
+                        target="_blank"
+                        class="hidden sm:flex brand-logo brand-logo-b"
+                        title="Brighton Mall"
+                    >
+                        <span class="initial">B</span>
+                        <span class="full-name">Brighton</span>
+                    </a>
+                    <!-- Enhanced 다크모드 토글 -->
+                    <div class="dark-toggle-container">
+                        <button
+                            id="darkToggle"
+                            class="dark-toggle-btn"
+                            title="다크모드 토글"
+                            aria-label="다크모드 전환"
+                        >
+                            <div class="toggle-icon moon-icon">
+                                <svg
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M21 12.79A9 9 0 1111.21 3a7 7 0 1010 9.79z"
+                                    />
+                                </svg>
+                            </div>
+                            <div class="toggle-icon sun-icon">
+                                <svg
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle cx="12" cy="12" r="5" />
+                                    <path
+                                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                                    />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                    <!-- 햄버거 (모바일) -->
+                    <button
+                        id="hamburgerBtn"
+                        class="ml-1 md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary/10 transition btn-anim"
+                        aria-label="모바일 메뉴"
+                        type="button"
+                    >
+                        <svg
+                            class="w-7 h-7"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4 6h16M4 12h16M4 18h16"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- PC NAV -->
+            <nav
+                class="max-w-5xl mx-auto gap-2 md:gap-4 mt-3 mb-1 bg-surface rounded-xl shadow-inner px-2 py-1 border border-border hidden md:flex"
+            >
+                <a
+                    href="#org"
+                    class="tab-link nav-active text-base font-semibold px-5 py-2 rounded-lg focus:outline-none"
+                    >오늘의 이슈</a
+                >
+                <a
+                    href="#issue"
+                    class="tab-link text-base font-semibold px-5 py-2 rounded-lg focus:outline-none"
+                    >지금 살펴볼 포인트</a
+                >
+                <a
+                    href="#photobooth"
+                    class="tab-link text-base font-semibold px-5 py-2 rounded-lg focus:outline-none"
+                    >포토부스</a
+                >
+                <a
+                    href="#TeamScheduler"
+                    class="tab-link text-base font-semibold px-5 py-2 rounded-lg focus:outline-none"
+                    >중요일정 보드</a
+                >
+                <a
+                    href="#insight"
+                    class="tab-link text-base font-semibold px-5 py-2 rounded-lg focus:outline-none"
+                    >인사이트</a
+                >
+                <a
+                    href="#Tool-box"
+                    class="tab-link text-base font-semibold px-5 py-2 rounded-lg focus:outline-none"
+                    >Tool-box</a
+                >
+                <a
+                    href="#company"
+                    class="tab-link text-base font-semibold px-5 py-2 rounded-lg focus:outline-none"
+                    >팀 프로필</a
+                >
+            </nav>
+            <!-- 모바일 NAV -->
+            <div id="mobileNavOverlay" class="mobile-nav-overlay hidden"></div>
+            <aside
+                id="mobileNavPanel"
+                class="mobile-nav-panel flex flex-col pt-7 pb-7 px-5 md:hidden hidden"
+            >
+                <div class="flex items-center justify-between mb-7">
+                    <span
+                        class="text-lg font-extrabold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text select-none"
+                        >In-House Magazine</span
+                    >
+                    <button
+                        id="mobileNavClose"
+                        class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-primary/10 transition"
+                        aria-label="메뉴 닫기"
+                        type="button"
+                    >
+                        <svg
+                            class="w-7 h-7"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <nav class="flex flex-col gap-2 mt-1">
+                    <a
+                        href="#org"
+                        class="tab-link nav-active text-base font-semibold px-5 py-3 rounded-lg focus:outline-none"
+                        >오늘의 이슈</a
+                    >
+                    <a
+                        href="#issue"
+                        class="tab-link text-base font-semibold px-5 py-3 rounded-lg focus:outline-none"
+                        >지금 살펴볼 포인트</a
+                    >
+                    <a
+                        href="#photobooth"
+                        class="tab-link text-base font-semibold px-5 py-3 rounded-lg focus:outline-none"
+                        >포토부스</a
+                    >
+                    <a
+                        href="#TeamScheduler"
+                        class="tab-link text-base font-semibold px-5 py-3 rounded-lg focus:outline-none"
+                        >중요일정 보드</a
+                    >
+                    <a
+                        href="#insight"
+                        class="tab-link text-base font-semibold px-5 py-3 rounded-lg focus:outline-none"
+                        >인사이트</a
+                    >
+                    <a
+                        href="#Tool-box"
+                        class="tab-link text-base font-semibold px-5 py-3 rounded-lg focus:outline-none"
+                        >Tool-box</a
+                    >
+                    <a
+                        href="#company"
+                        class="tab-link text-base font-semibold px-5 py-3 rounded-lg focus:outline-none"
+                        >팀 프로필</a
+                    >
+                </nav>
+            </aside>
+        </header>
+
+        <main class="max-w-5xl mx-auto px-4 md:px-0 pt-6 pb-16 space-y-20">
+            <!-- 히어로 섹션 추가 -->
+            <section
+                class="fade-section relative overflow-hidden bg-gradient-to-br from-primary/5 via-accent/5 to-primaryDark/5 rounded-3xl border border-primary/20 shadow-2xl"
+            >
+                <div class="relative z-10 text-center py-4 md:py-8">
+                    <div class="max-w-4xl mx-auto">
+                        <!-- 메인 타이틀 -->
+                        <h1
+                            class="text-4xl md:text-6xl font-black tracking-tight mb-3 animate-fadeUp"
+                            style="
+                                line-height: 1.1;
+                                background: linear-gradient(
+                                    135deg,
+                                    #4957f3 0%,
+                                    #17c684 50%,
+                                    #2832a2 100%
+                                );
+                                background-size: 200% 200%;
+                                -webkit-background-clip: text;
+                                -webkit-text-fill-color: transparent;
+                                background-clip: text;
+                                animation: gradientShift 3s ease-in-out infinite,
+                                    titleEntrance 1.5s ease-out forwards;
+                            "
+                        >
+                            In-House Magazine
+                        </h1>
+
+                        <!-- 서브 타이틀 -->
+                        <div
+                            class="mb-3 animate-fadeUp"
+                            style="animation-delay: 0.2s"
+                        >
+                            <p
+                                class="text-xl md:text-2xl font-bold text-textMain mb-1"
+                            >
+                                가볍게 들러보는 사내 이야기
+                            </p>
+                            <p class="text-base md:text-lg text-textSub">
+                                부담 없이, 편하게 둘러보세요. 실시간으로
+                                전해드려요.
+                            </p>
+                        </div>
+
+                        <!-- Lottie 애니메이션 -->
+                        <div
+                            class="flex justify-center mb-3 animate-fadeUp"
+                            style="animation-delay: 0.4s"
+                        >
+                            <dotlottie-player
+                                src="https://lottie.host/1c78c917-fdaf-44c1-8677-29f704af77fc/hTuA2LgSmc.lottie"
+                                background="transparent"
+                                speed="1"
+                                style="width: 300px; height: 300px"
+                                loop
+                                autoplay
+                            ></dotlottie-player>
+                        </div>
+
+                        <!-- 컨텐츠 팀 이미지 제공 예정 텍스트 -->
+                        <div
+                            class="mb-4 animate-fadeUp"
+                            style="animation-delay: 0.5s"
+                        >
+                            <p
+                                class="text-base md:text-lg text-yellow-600 font-bold text-center"
+                            >
+                                EIBE 메인 이미지를 열심히 만들고있어요.(컨텐츠팀
+                                제공예정)
+                            </p>
+                        </div>
+
+                        <!-- 강조 문구 -->
+                        <div
+                            class="mb-4 animate-fadeUp"
+                            style="animation-delay: 0.6s"
+                        >
+                            <p
+                                class="text-base md:text-lg text-textSub leading-relaxed"
+                            >
+                                프로젝트, 이슈, update...., 중요일정 보드까지<br />
+                                <span class="text-accent font-bold text-lg"
+                                    >궁금할 때 언제든 한눈에!</span
+                                >
+                            </p>
+                        </div>
+                        <!-- 통계 카드들 -->
+                        <div
+                            class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto animate-fadeUp"
+                            style="animation-delay: 0.8s"
+                        >
+                            <div
+                                class="wave-card bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border-2 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+                                style="animation-delay: 0s"
+                            >
+                                <div
+                                    class="text-lg font-bold text-primary mb-1"
+                                >
+                                    +1
+                                </div>
+                                <div class="text-xs text-textSub font-medium">
+                                    예정된 스케쥴
+                                </div>
+                            </div>
+                            <div
+                                class="wave-card bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border-2 border-accent/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-accent/40"
+                                style="animation-delay: 0.2s"
+                            >
+                                <div class="text-lg font-bold text-accent mb-1">
+                                    NateOn 팀룸
+                                </div>
+                                <div class="text-xs text-textSub font-medium">
+                                    업데이트 메세지 자동전송
+                                </div>
+                            </div>
+                            <div
+                                class="wave-card bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border-2 border-primaryDark/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-primaryDark/40"
+                                style="animation-delay: 0.4s"
+                            >
+                                <div
+                                    class="text-lg font-bold text-primaryDark mb-1"
+                                >
+                                    +3
+                                </div>
+                                <div class="text-xs text-textSub font-medium">
+                                    등록된 인사이트
+                                </div>
+                            </div>
+                            <div
+                                class="wave-card bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border-2 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+                                style="animation-delay: 0.6s"
+                            >
+                                <div
+                                    class="text-lg font-bold text-primary mb-1"
+                                >
+                                    +2
+                                </div>
+
+                                <div class="text-xs text-textSub font-medium">
+                                    우리가 공유한 생각들
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA 버튼 -->
+                        <div
+                            class="mt-4 animate-fadeUp"
+                            style="animation-delay: 1s"
+                        ></div>
+                    </div>
+                </div>
+
+                <!-- 강화된 배경 장식 요소들 -->
+                <div
+                    class="absolute inset-0 overflow-hidden pointer-events-none"
+                >
+                    <!-- 메인 그라데이션 원 -->
+                    <div
+                        class="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl animate-pulse"
+                    ></div>
+                    <div
+                        class="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-r from-accent/20 to-primaryDark/20 rounded-full blur-3xl animate-pulse"
+                        style="animation-delay: 1s"
+                    ></div>
+                    <div
+                        class="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-r from-primaryDark/20 to-primary/20 rounded-full blur-2xl animate-pulse"
+                        style="animation-delay: 2s"
+                    ></div>
+
+                    <!-- 움직이는 장식 요소들 -->
+                    <div
+                        class="absolute top-1/4 right-1/4 w-12 h-12 bg-primary/10 rounded-full animate-bounce"
+                        style="animation-delay: 0.5s"
+                    ></div>
+                    <div
+                        class="absolute bottom-1/4 left-1/3 w-10 h-10 bg-accent/10 rounded-full animate-bounce"
+                        style="animation-delay: 1.5s"
+                    ></div>
+
+                    <!-- 선형 장식 -->
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+                    ></div>
+                    <div
+                        class="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/30 to-transparent"
+                    ></div>
+                </div>
+            </section>
+            <!-- 오늘의 이슈 -->
+            <section id="org" class="fade-section">
+                <h2
+                    id="org-title"
+                    class="scroll-mt-28 text-2xl md:text-3xl font-bold tracking-tight mb-4 flex items-center gap-2 text-textMain animate-fadeUp"
+                >
+                    <button
+                        onclick="toggleAccordion('orgAccordion')"
+                        class="w-full text-left flex items-center gap-2 group btn-anim"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                            />
+                        </svg>
+
+                        오늘의 이슈
+                        <svg
+                            class="w-5 h-5 group-hover:text-primary transition"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="orgAccordion" class="hidden">
+                    <div
+                        class="glass rounded-xl p-2 shadow-card animate-fadeUp bg-gradient-to-br from-primary/5 via-accent/5 to-primaryDark/5 border border-primary/20"
+                    >
+                        <iframe
+                            src="https://agency8group.github.io/GoodMorning_Eibe/"
+                            title="오늘의 이슈 실시간 모니터링"
+                            class="w-full bg-white"
+                            style="
+                                border: 0;
+                                border-radius: 12px;
+                                width: 100%;
+                                height: 70vh;
+                                min-height: 500px;
+                            "
+                            allowfullscreen
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 지금 살펴볼 포인트 -->
+            <section id="issue" class="fade-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h2
+                        id="issue-title"
+                        class="scroll-mt-28 text-2xl md:text-3xl font-bold tracking-tight text-textMain animate-fadeUp flex items-center gap-2"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"
+                            />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
+                            />
+                        </svg>
+
+                        지금 살펴볼 포인트
+                    </h2>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div
+                        class="glass rounded-2xl shadow-card border border-border/50 p-6 flex flex-col gap-3 card-anim animate-slideIn group relative overflow-hidden"
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                rgba(255, 255, 255, 0.95) 0%,
+                                rgba(255, 255, 255, 0.85) 100%
+                            );
+                            backdrop-filter: blur(12px);
+                        "
+                    >
+                        <!-- 배경 장식 -->
+                        <div
+                            class="absolute top-0 right-0 w-20 h-20 bg-accent/5 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"
+                        ></div>
+
+                        <h3
+                            class="text-lg font-bold flex items-center gap-3 mb-2 relative z-10"
+                        >
+                            <span
+                                class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-accent to-green-400 text-white shadow-lg"
+                            >
+                                <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d="M9 12l2 2l4-4" />
+                                </svg>
+                            </span>
+                            사내 매거진 사이트 오픈
+                        </h3>
+                        <p
+                            class="text-textSub text-sm leading-relaxed relative z-10"
+                        >
+                            사내 매거진 사이트가 정상 오픈되었습니다.<br />
+                            이용에 참고 바랍니다.
+                        </p>
+                        <div
+                            class="mt-auto pt-3 border-t border-border/30 relative z-10"
+                        >
+                            <span class="text-xs text-accent font-semibold"
+                                >✅ 완료</span
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="glass rounded-2xl shadow-card border border-border/50 p-6 flex flex-col gap-3 card-anim animate-slideIn group relative overflow-hidden"
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                rgba(255, 255, 255, 0.95) 0%,
+                                rgba(255, 255, 255, 0.85) 100%
+                            );
+                            backdrop-filter: blur(12px);
+                            animation-delay: 0.1s;
+                        "
+                    >
+                        <!-- 배경 장식 -->
+                        <div
+                            class="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"
+                        ></div>
+
+                        <h3
+                            class="text-lg font-bold flex items-center gap-3 mb-2 relative z-10"
+                        >
+                            <span
+                                class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-blue-500 text-white shadow-lg"
+                            >
+                                <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle cx="12" cy="12" r="9" />
+                                </svg>
+                            </span>
+                            06월 정직원 발령
+                        </h3>
+                        <p
+                            class="text-textSub text-sm leading-relaxed relative z-10"
+                        >
+                            박지영 대리 , 서정민 사원 <br />
+
+                            박주영 사원 , 이윤경 사원
+                        </p>
+                        <div
+                            class="mt-auto pt-3 border-t border-border/30 relative z-10"
+                        >
+                            <span class="text-xs text-primary font-semibold"
+                                >🎉 축하합니다.</span
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="glass rounded-2xl shadow-card border border-border/50 p-6 flex flex-col gap-3 card-anim animate-slideIn group relative overflow-hidden"
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                rgba(255, 255, 255, 0.95) 0%,
+                                rgba(255, 255, 255, 0.85) 100%
+                            );
+                            backdrop-filter: blur(12px);
+                            animation-delay: 0.2s;
+                        "
+                    >
+                        <!-- 배경 장식 -->
+                        <div
+                            class="absolute top-0 right-0 w-20 h-20 bg-primaryDark/5 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"
+                        ></div>
+
+                        <h3
+                            class="text-lg font-bold flex items-center gap-3 mb-2 relative z-10"
+                        >
+                            <span
+                                class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-primaryDark to-purple-500 text-white shadow-lg"
+                            >
+                                <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </span>
+                            신규 입사자
+                        </h3>
+                        <p
+                            class="text-textSub text-sm leading-relaxed relative z-10"
+                        >
+                            드리미팀 마케팅팀 최유선님
+                        </p>
+                        <div
+                            class="mt-auto pt-3 border-t border-border/30 relative z-10"
+                        >
+                            <span class="text-xs text-primaryDark font-semibold"
+                                >💪 환영합니다.</span
+                            >
+                        </div>
+                    </div>
+                </div>
+                <!-- 이달의 출근상 카드 3개 추가 -->
+                <div class="mt-12">
+                    <h3
+                        class="text-xl font-bold text-textMain mb-6 flex items-center gap-2"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"
+                            />
+                        </svg>
+
+                        EIBE M.V.P
+                    </h3>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- 출근상 카드 1 -->
+                        <div
+                            class="glass rounded-2xl shadow-card border border-border/50 p-6 flex flex-col gap-3 card-anim animate-slideIn group relative overflow-hidden"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    rgba(255, 255, 255, 0.95) 0%,
+                                    rgba(255, 255, 255, 0.85) 100%
+                                );
+                                backdrop-filter: blur(12px);
+                                animation-delay: 0.3s;
+                            "
+                        >
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 bg-yellow-400/10 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"
+                            ></div>
+                            <div class="relative z-10">
+                                <div
+                                    class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg overflow-hidden person-image-container"
+                                >
+                                    <img
+                                        src="./people/인물1.png"
+                                        alt="최고 출근왕"
+                                        class="w-full h-full object-cover person-image"
+                                    />
+                                </div>
+                                <h3 class="text-lg font-bold text-center mb-2">
+                                    최고 출근왕
+                                </h3>
+                                <p
+                                    class="text-textSub text-sm text-center leading-relaxed"
+                                >
+                                    이번 달 가장 빠른 출근을 기록한<br />
+                                    <span class="font-semibold text-yellow-600"
+                                        >김철수 대리</span
+                                    >
+                                </p>
+                                <div
+                                    class="mt-4 pt-3 border-t border-border/30 text-center"
+                                >
+                                    <span
+                                        class="text-xs text-yellow-600 font-semibold"
+                                        >🏆 1등</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 출근상 카드 2 -->
+                        <div
+                            class="glass rounded-2xl shadow-card border border-border/50 p-6 flex flex-col gap-3 card-anim animate-slideIn group relative overflow-hidden"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    rgba(255, 255, 255, 0.95) 0%,
+                                    rgba(255, 255, 255, 0.85) 100%
+                                );
+                                backdrop-filter: blur(12px);
+                                animation-delay: 0.4s;
+                            "
+                        >
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 bg-blue-400/10 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"
+                            ></div>
+                            <div class="relative z-10">
+                                <div
+                                    class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg overflow-hidden person-image-container"
+                                >
+                                    <img
+                                        src="./people/인물2.png"
+                                        alt="정시 출근왕"
+                                        class="w-full h-full object-cover person-image"
+                                    />
+                                </div>
+                                <h3 class="text-lg font-bold text-center mb-2">
+                                    정시 출근왕
+                                </h3>
+                                <p
+                                    class="text-textSub text-sm text-center leading-relaxed"
+                                >
+                                    매일 정확히 9시에 출근하는<br />
+                                    <span class="font-semibold text-blue-600"
+                                        >이영희 사원</span
+                                    >
+                                </p>
+                                <div
+                                    class="mt-4 pt-3 border-t border-border/30 text-center"
+                                >
+                                    <span
+                                        class="text-xs text-blue-600 font-semibold"
+                                        >⏰ 정시</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 출근상 카드 3 -->
+                        <div
+                            class="glass rounded-2xl shadow-card border border-border/50 p-6 flex flex-col gap-3 card-anim animate-slideIn group relative overflow-hidden"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    rgba(255, 255, 255, 0.95) 0%,
+                                    rgba(255, 255, 255, 0.85) 100%
+                                );
+                                backdrop-filter: blur(12px);
+                                animation-delay: 0.5s;
+                            "
+                        >
+                            <div
+                                class="absolute top-0 right-0 w-20 h-20 bg-green-400/10 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"
+                            ></div>
+                            <div class="relative z-10">
+                                <div
+                                    class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg overflow-hidden person-image-container"
+                                >
+                                    <img
+                                        src="./people/인물3.png"
+                                        alt="팀워크 출근왕"
+                                        class="w-full h-full object-cover person-image"
+                                    />
+                                </div>
+                                <h3 class="text-lg font-bold text-center mb-2">
+                                    팀워크 출근왕
+                                </h3>
+                                <p
+                                    class="text-textSub text-sm text-center leading-relaxed"
+                                >
+                                    팀원들과 함께 출근하는<br />
+                                    <span class="font-semibold text-green-600"
+                                        >박민수 팀장</span
+                                    >
+                                </p>
+                                <div
+                                    class="mt-4 pt-3 border-t border-border/30 text-center"
+                                >
+                                    <span
+                                        class="text-xs text-green-600 font-semibold"
+                                        >👥 팀워크</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 댓글 시스템 (Google Apps Script 연동) -->
+                <div
+                    class="mt-8 glass rounded-2xl shadow-card border border-border/50 p-4 animate-fadeUp"
+                    style="animation-delay: 0.3s"
+                >
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <svg
+                                class="w-5 h-5 text-primary"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                />
+                            </svg>
+                            <h3 class="text-lg font-bold text-textMain">
+                                당신의 생각은?
+                            </h3>
+                            <span
+                                class="text-xs text-textSub bg-primary/10 text-primary px-2 py-1 rounded-full"
+                                >∞</span
+                            >
+                        </div>
+                        <button
+                            id="refreshComments"
+                            class="flex items-center gap-2 px-3 py-1.5 bg-white/80 hover:bg-white border border-border/50 rounded-lg text-sm font-medium text-textMain transition-all duration-200 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            title="댓글 새로고침"
+                        >
+                            <svg
+                                class="w-4 h-4 transition-transform duration-300"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+                                />
+                            </svg>
+                            <span class="hidden sm:inline">새로고침</span>
+                        </button>
+                    </div>
+
+                    <!-- 댓글 목록 (스크롤 가능, 최대 4개 표시) -->
+                    <div
+                        id="commentList"
+                        class="comment-container space-y-4 mb-6"
+                    >
+                        <!-- 실제 댓글은 여기에 동적으로 추가됩니다 -->
+                    </div>
+
+                    <!-- 댓글 페이지네이션 -->
+                    <div
+                        id="commentPagination"
+                        class="comment-pagination hidden"
+                    >
+                        <button id="prevPage" class="pagination-btn">
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M15 19l-7-7 7-7"
+                                />
+                            </svg>
+                        </button>
+                        <span id="paginationInfo" class="pagination-info"
+                            >1-10 / 0</span
+                        >
+                        <button id="nextPage" class="pagination-btn">
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- 댓글 작성 폼 -->
+                    <div class="comment-form">
+                        <div class="flex gap-3">
+                            <div
+                                class="w-8 h-8 bg-gradient-to-br from-primary to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
+                            >
+                                나
+                            </div>
+                            <div class="flex-1">
+                                <!-- 이름 입력란 -->
+                                <div class="comment-input-group">
+                                    <input
+                                        type="text"
+                                        id="commentName"
+                                        placeholder="이름을 입력하세요 (선택사항)"
+                                        class="comment-input"
+                                        maxlength="20"
+                                    />
+                                    <label
+                                        class="flex items-center gap-2 text-xs text-textSub"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id="anonymousCheck"
+                                            class="rounded"
+                                        />
+                                        <span>익명으로 작성</span>
+                                    </label>
+                                </div>
+
+                                <!-- 댓글 내용 입력란 -->
+                                <textarea
+                                    id="commentInput"
+                                    placeholder="함께 이야기해요:)"
+                                    class="comment-textarea"
+                                    rows="3"
+                                    maxlength="500"
+                                ></textarea>
+
+                                <div
+                                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-3"
+                                >
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs text-textSub">
+                                            <span id="charCount">0</span>/500자
+                                        </span>
+                                    </div>
+                                    <button
+                                        id="submitComment"
+                                        class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-primaryDark text-white rounded-lg text-sm font-semibold transition shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        댓글 작성
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 포토부스 -->
+            <section id="photobooth" class="fade-section">
+                <h2
+                    id="photobooth-title"
+                    class="scroll-mt-28 text-2xl md:text-3xl font-bold tracking-tight mb-8 text-textMain animate-fadeUp flex items-center gap-2"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+                        />
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                        />
+                    </svg>
+                    포토부스
+                </h2>
+
+                <!-- Swiper 캐러셀 -->
+                <div class="relative">
+                    <div class="swiper photobooth-swiper">
+                        <div class="swiper-wrapper">
+                            <!-- 슬라이드 1 -->
+                            <div class="swiper-slide">
+                                <div
+                                    class="relative group overflow-hidden rounded-2xl shadow-card border border-border/50 bg-white aspect-[4/3] flex"
+                                >
+                                    <img
+                                        src="./photobooth/대표님스튜디오 프로필 촬영.jpg"
+                                        class="object-cover w-full h-full blur-[2px] group-hover:blur-none group-hover:scale-110 transition-all duration-700 ease-out photobooth-image"
+                                        alt="대표님 프로필 스튜디오 촬영"
+                                        loading="lazy"
+                                    />
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-all duration-500"
+                                    ></div>
+                                    <div
+                                        class="absolute inset-0 flex flex-col items-center justify-center opacity-100 group-hover:opacity-0 transition-all duration-500 p-6"
+                                    >
+                                        <div class="text-center">
+                                            <div
+                                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto"
+                                            >
+                                                <svg
+                                                    class="w-6 h-6 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                                    />
+                                                    <path
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <h3
+                                                class="text-white font-bold text-lg md:text-xl mb-2 drop-shadow-lg"
+                                            >
+                                                대표님 프로필 스튜디오 촬영
+                                            </h3>
+                                            <p
+                                                class="text-white/90 text-sm drop-shadow"
+                                            >
+                                                기업소개서 등에 업데이트
+                                                할거에요!
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-primary shadow-lg"
+                                    >
+                                        📸 프로필
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 슬라이드 2 -->
+                            <div class="swiper-slide">
+                                <div
+                                    class="relative group overflow-hidden rounded-2xl shadow-card border border-border/50 bg-white aspect-[4/3] flex"
+                                >
+                                    <img
+                                        src="./photobooth/드리미 라이브방송.jpg"
+                                        class="object-cover w-full h-full blur-[2px] group-hover:blur-none group-hover:scale-110 transition-all duration-700 ease-out photobooth-image"
+                                        alt="드리미 라이브방송"
+                                        loading="lazy"
+                                    />
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-all duration-500"
+                                    ></div>
+                                    <div
+                                        class="absolute inset-0 flex flex-col items-center justify-center opacity-100 group-hover:opacity-0 transition-all duration-500 p-6"
+                                    >
+                                        <div class="text-center">
+                                            <div
+                                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto"
+                                            >
+                                                <svg
+                                                    class="w-6 h-6 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <h3
+                                                class="text-white font-bold text-lg md:text-xl mb-2 drop-shadow-lg"
+                                            >
+                                                드리미 라이브방송
+                                            </h3>
+                                            <p
+                                                class="text-white/90 text-sm drop-shadow"
+                                            >
+                                                라이브방송 준비과정입니다!
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-accent shadow-lg"
+                                    >
+                                        🎥 라이브
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 슬라이드 3 -->
+                            <div class="swiper-slide">
+                                <div
+                                    class="relative group overflow-hidden rounded-2xl shadow-card border border-border/50 bg-white aspect-[4/3] flex"
+                                >
+                                    <img
+                                        src="./photobooth/드리미 본사회의.jpg"
+                                        class="object-cover w-full h-full blur-[2px] group-hover:blur-none group-hover:scale-110 transition-all duration-700 ease-out photobooth-image"
+                                        alt="드리미 본사 프리젠테이션"
+                                        loading="lazy"
+                                    />
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-all duration-500"
+                                    ></div>
+                                    <div
+                                        class="absolute inset-0 flex flex-col items-center justify-center opacity-100 group-hover:opacity-0 transition-all duration-500 p-6"
+                                    >
+                                        <div class="text-center">
+                                            <div
+                                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto"
+                                            >
+                                                <svg
+                                                    class="w-6 h-6 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <h3
+                                                class="text-white font-bold text-lg md:text-xl mb-2 drop-shadow-lg"
+                                            >
+                                                드리미 중국방문 본사회의
+                                            </h3>
+                                            <p
+                                                class="text-white/90 text-sm drop-shadow"
+                                            >
+                                                어떤 내용으로 회의가
+                                                진행됬을까요?
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-primaryDark shadow-lg"
+                                    >
+                                        🌏 해외
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 슬라이드 4 (추가 사진이 있다면 여기에 추가) -->
+                            <div class="swiper-slide">
+                                <div
+                                    class="relative group overflow-hidden rounded-2xl shadow-card border border-border/50 bg-white aspect-[4/3] flex"
+                                >
+                                    <img
+                                        src="./photobooth/cj온스타일 브라이언.jpg"
+                                        class="object-cover w-full h-full blur-[2px] group-hover:blur-none group-hover:scale-110 transition-all duration-700 ease-out photobooth-image"
+                                        alt="브라이언이 진행하는 Live"
+                                        loading="lazy"
+                                    />
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-all duration-500"
+                                    ></div>
+                                    <div
+                                        class="absolute inset-0 flex flex-col items-center justify-center opacity-100 group-hover:opacity-0 transition-all duration-500 p-6"
+                                    >
+                                        <div class="text-center">
+                                            <div
+                                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto"
+                                            >
+                                                <svg
+                                                    class="w-6 h-6 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <h3
+                                                class="text-white font-bold text-lg md:text-xl mb-2 drop-shadow-lg"
+                                            >
+                                                브라이언 쇼호스트로 출현!
+                                            </h3>
+                                            <p
+                                                class="text-white/90 text-sm drop-shadow"
+                                            >
+                                                cj온스타일에서 <br />
+                                                X50s Pro Master 를 소개했어요.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-accent shadow-lg"
+                                    >
+                                        🎥 라이브
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 슬라이드 5 -->
+                            <div class="swiper-slide">
+                                <div
+                                    class="relative group overflow-hidden rounded-2xl shadow-card border border-border/50 bg-white aspect-[4/3] flex"
+                                >
+                                    <img
+                                        src="./photobooth/새로운 소식을 기다리고 있어요 !.png"
+                                        class="object-cover w-full h-full blur-[2px] group-hover:blur-none group-hover:scale-110 transition-all duration-700 ease-out photobooth-image"
+                                        alt="새로운 소식 대기"
+                                        loading="lazy"
+                                    />
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-all duration-500"
+                                    ></div>
+                                    <div
+                                        class="absolute inset-0 flex flex-col items-center justify-center opacity-100 group-hover:opacity-0 transition-all duration-500 p-6"
+                                    >
+                                        <div class="text-center">
+                                            <div
+                                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto"
+                                            >
+                                                <svg
+                                                    class="w-6 h-6 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <h3
+                                                class="text-white font-bold text-lg md:text-xl mb-2 drop-shadow-lg"
+                                            >
+                                                새로운 소식을
+                                            </h3>
+                                            <p
+                                                class="text-white/90 text-sm drop-shadow"
+                                            >
+                                                기다리고 있어요 !
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-primary shadow-lg"
+                                    >
+                                        🚀 준비
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 슬라이드 6 -->
+                            <div class="swiper-slide">
+                                <div
+                                    class="relative group overflow-hidden rounded-2xl shadow-card border border-border/50 bg-white aspect-[4/3] flex"
+                                >
+                                    <img
+                                        src="./photobooth/새로운 소식을 기다리고 있어요 !.png"
+                                        class="object-cover w-full h-full blur-[2px] group-hover:blur-none group-hover:scale-110 transition-all duration-700 ease-out photobooth-image"
+                                        alt="새로운 소식대기"
+                                        loading="lazy"
+                                    />
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-all duration-500"
+                                    ></div>
+                                    <div
+                                        class="absolute inset-0 flex flex-col items-center justify-center opacity-100 group-hover:opacity-0 transition-all duration-500 p-6"
+                                    >
+                                        <div class="text-center">
+                                            <div
+                                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto"
+                                            >
+                                                <svg
+                                                    class="w-6 h-6 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <h3
+                                                class="text-white font-bold text-lg md:text-xl mb-2 drop-shadow-lg"
+                                            >
+                                                새로운 소식을
+                                            </h3>
+                                            <p
+                                                class="text-white/90 text-sm drop-shadow"
+                                            >
+                                                기다리고 있어요 !
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-primaryDark shadow-lg"
+                                    >
+                                        💝 준비
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 네비게이션 화살표 -->
+                        <div
+                            class="swiper-button-next !text-white !bg-black/20 !backdrop-blur-sm !rounded-full !w-12 !h-12 !transition-all hover:!bg-black/40"
+                        ></div>
+                        <div
+                            class="swiper-button-prev !text-white !bg-black/20 !backdrop-blur-sm !rounded-full !w-12 !h-12 !transition-all hover:!bg-black/40"
+                        ></div>
+
+                        <!-- 페이지네이션 -->
+                        <div class="swiper-pagination !bottom-4"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 팀스케쥴러 -->
+            <section id="TeamScheduler" class="fade-section">
+                <h2
+                    id="TeamScheduler-title"
+                    class="scroll-mt-28 text-2xl md:text-3xl font-bold tracking-tight mb-4 flex items-center gap-2 text-textMain animate-fadeUp"
+                >
+                    <button
+                        onclick="toggleAccordion('TeamSchedulerAccordion')"
+                        class="w-full text-left flex items-center gap-2 group btn-anim"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 2v2m12-2v2M3.5 7h17M4 7v13a2 2 0 002 2h12a2 2 0 002-2V7M16 11h.01M12 11h.01M8 11h.01M16 15h.01M12 15h.01M8 15h.01"
+                            />
+                        </svg>
+
+                        중요일정 보드
+                        <svg
+                            class="w-5 h-5 group-hover:text-primary transition"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="TeamSchedulerAccordion" class="hidden">
+                    <div
+                        class="glass rounded-xl p-2 shadow-card animate-fadeUp bg-gradient-to-br from-primary/5 via-accent/5 to-primaryDark/5 border border-primary/20"
+                    >
+                        <!-- 이곳이 진짜 "TV/모니터 박스" -->
+                        <iframe
+                            src="https://agency8group.github.io/TeamScheduler/"
+                            title="중요일정알림"
+                            class="w-full bg-white"
+                            style="
+                                border: 0;
+                                border-radius: 12px;
+                                width: 100%;
+                                height: 70vh;
+                                min-height: 750px;
+                            "
+                            allowfullscreen
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 인사이트 -->
+            <section id="insight" class="fade-section">
+                <h2
+                    id="insight-title"
+                    class="scroll-mt-28 text-2xl md:text-3xl font-bold tracking-tight mb-8 text-textMain flex items-center gap-2 animate-fadeUp"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+                        />
+                    </svg>
+
+                    인사이트
+                </h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <a
+                        href="https://agency8group.github.io/eibe_cs/#ai"
+                        target="_blank"
+                        class="glass flex flex-col items-start gap-3 rounded-2xl border-2 border-primary/20 shadow-card p-6 card-anim hover:scale-[1.02] hover:border-primary hover:shadow-xl transition-all duration-300 group animate-fadeUp relative overflow-hidden cursor-pointer"
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                rgba(255, 255, 255, 0.9) 0%,
+                                rgba(255, 255, 255, 0.7) 100%
+                            );
+                            backdrop-filter: blur(12px);
+                        "
+                    >
+                        <!-- 배경 장식 -->
+                        <div
+                            class="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500"
+                        ></div>
+
+                        <!-- 클릭 가능함을 나타내는 화살표 아이콘 -->
+                        <div
+                            class="absolute top-4 right-4 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+                        >
+                            <svg
+                                class="w-4 h-4 text-primary"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </div>
+
+                        <div class="flex items-center gap-3 mb-2 relative z-10">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-primary to-blue-500 rounded-xl flex items-center justify-center shadow-lg"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                    />
+                                </svg>
+                            </div>
+                            <span
+                                class="bg-primary/10 text-primary rounded-full px-3 py-1 text-xs font-bold"
+                            >
+                                AI Portal
+                            </span>
+                        </div>
+
+                        <h3
+                            class="text-lg font-bold mb-2 flex items-center gap-2 relative z-10 group-hover:text-primary transition-colors duration-300"
+                        >
+                            드리미 AI 상담포털
+                        </h3>
+                        <p
+                            class="text-textSub text-sm leading-relaxed relative z-10"
+                        >
+                            제품 상담, 교육자료, 매뉴얼 제공
+                        </p>
+
+                        <!-- 상태 표시 -->
+                        <div
+                            class="mt-auto pt-3 border-t border-border/30 relative z-10 w-full"
+                        >
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-primary font-semibold"
+                                    >🟢 운영중</span
+                                >
+                                <span class="text-xs text-textSub">v1.2.0</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a
+                        href="https://agency8group.github.io/Feedback-BOX/"
+                        target="_blank"
+                        class="glass flex flex-col items-start gap-3 rounded-2xl border-2 border-accent/20 shadow-card p-6 card-anim hover:scale-[1.02] hover:border-accent hover:shadow-xl transition-all duration-300 group animate-fadeUp relative overflow-hidden cursor-pointer"
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                rgba(255, 255, 255, 0.9) 0%,
+                                rgba(255, 255, 255, 0.7) 100%
+                            );
+                            backdrop-filter: blur(12px);
+                            animation-delay: 0.1s;
+                        "
+                    >
+                        <!-- 배경 장식 -->
+                        <div
+                            class="absolute top-0 right-0 w-16 h-16 bg-accent/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500"
+                        ></div>
+
+                        <!-- 클릭 가능함을 나타내는 화살표 아이콘 -->
+                        <div
+                            class="absolute top-4 right-4 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+                        >
+                            <svg
+                                class="w-4 h-4 text-accent"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </div>
+
+                        <div class="flex items-center gap-3 mb-2 relative z-10">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-accent to-green-400 rounded-xl flex items-center justify-center shadow-lg"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M9 12l2 2l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </div>
+                            <span
+                                class="bg-accent/10 text-accent rounded-full px-3 py-1 text-xs font-bold"
+                            >
+                                Feedback
+                            </span>
+                        </div>
+
+                        <h3
+                            class="text-lg font-bold mb-2 flex items-center gap-2 relative z-10 group-hover:text-accent transition-colors duration-300"
+                        >
+                            피드백박스
+                        </h3>
+                        <p
+                            class="text-textSub text-sm leading-relaxed relative z-10"
+                        >
+                            익명 건의게시판, 조직 개선 제안
+                        </p>
+
+                        <!-- 상태 표시 -->
+                        <div
+                            class="mt-auto pt-3 border-t border-border/30 relative z-10 w-full"
+                        >
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-accent font-semibold"
+                                    >🟢 운영중</span
+                                >
+                                <span class="text-xs text-textSub">v1.0.0</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a
+                        href="https://agency8group.github.io/office-tetris/"
+                        target="_blank"
+                        class="glass flex flex-col items-start gap-3 rounded-2xl border-2 border-primaryDark/20 shadow-card p-6 card-anim hover:scale-[1.02] hover:border-primaryDark hover:shadow-xl transition-all duration-300 group animate-fadeUp relative overflow-hidden cursor-pointer"
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                rgba(255, 255, 255, 0.9) 0%,
+                                rgba(255, 255, 255, 0.7) 100%
+                            );
+                            backdrop-filter: blur(12px);
+                            animation-delay: 0.2s;
+                        "
+                    >
+                        <!-- 배경 장식 -->
+                        <div
+                            class="absolute top-0 right-0 w-16 h-16 bg-primaryDark/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500"
+                        ></div>
+
+                        <!-- 클릭 가능함을 나타내는 화살표 아이콘 -->
+                        <div
+                            class="absolute top-4 right-4 w-8 h-8 bg-primaryDark/10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+                        >
+                            <svg
+                                class="w-4 h-4 text-primaryDark"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </div>
+
+                        <div class="flex items-center gap-3 mb-2 relative z-10">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-primaryDark to-purple-500 rounded-xl flex items-center justify-center shadow-lg"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </div>
+                            <span
+                                class="bg-primaryDark/10 text-primaryDark rounded-full px-3 py-1 text-xs font-bold"
+                            >
+                                Game
+                            </span>
+                        </div>
+
+                        <h3
+                            class="text-lg font-bold mb-2 flex items-center gap-2 relative z-10 group-hover:text-primaryDark transition-colors duration-300"
+                        >
+                            오피스 테트리스
+                        </h3>
+                        <p
+                            class="text-textSub text-sm leading-relaxed relative z-10"
+                        >
+                            수수께끼의 인물 등장? 오피스 테마 테트리스
+                        </p>
+
+                        <!-- 상태 표시 -->
+                        <div
+                            class="mt-auto pt-3 border-t border-border/30 relative z-10 w-full"
+                        >
+                            <div class="flex items-center justify-between">
+                                <span
+                                    class="text-xs text-primaryDark font-semibold"
+                                    >🟢 운영중</span
+                                >
+                                <span class="text-xs text-textSub">v4.1</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Tool-box (update.... 미러링) -->
+            <section id="Tool-box" class="fade-section">
+                <h2
+                    id="Tool-box-title"
+                    class="scroll-mt-28 text-2xl md:text-3xl font-bold tracking-tight mb-4 flex items-center gap-2 text-textMain animate-fadeUp"
+                >
+                    <button
+                        onclick="toggleAccordion('Tool-boxAccordion')"
+                        class="w-full text-left flex items-center gap-2 group btn-anim"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"
+                            />
+                        </svg>
+                        Tool-box
+                        <svg
+                            class="w-5 h-5 group-hover:text-primary transition"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="Tool-boxAccordion" class="hidden">
+                    <div
+                        class="glass rounded-xl p-2 shadow-card animate-fadeUp bg-gradient-to-br from-accent/5 via-primary/5 to-primaryDark/5 border border-accent/20"
+                    >
+                        <iframe
+                            src="https://agency8group.github.io/tool-box/"
+                            title="Tool-box 미러링"
+                            class="w-full bg-white"
+                            style="
+                                border: 0;
+                                border-radius: 12px;
+                                width: 100%;
+                                height: 60vh;
+                                min-height: 500px;
+                            "
+                            allowfullscreen
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 팀 프로필 -->
+            <section id="company" class="fade-section">
+                <h2
+                    id="company-title"
+                    class="scroll-mt-28 text-2xl md:text-3xl font-bold tracking-tight mb-4 flex items-center gap-2 text-textMain animate-fadeUp"
+                >
+                    <button
+                        onclick="toggleAccordion('companyAccordion')"
+                        class="w-full text-left flex items-center gap-2 group btn-anim"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                            />
+                        </svg>
+
+                        팀 프로필
+                        <svg
+                            class="w-5 h-5 group-hover:text-primary transition"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </h2>
+                <div id="companyAccordion" class="hidden">
+                    <div
+                        class="glass rounded-xl p-2 shadow-card animate-fadeUp bg-gradient-to-br from-primaryDark/5 via-primary/5 to-accent/5 border border-primaryDark/20"
+                    >
+                        <iframe
+                            src="https://agency8group.github.io/team-card/"
+                            title="EIBE 팀카드"
+                            class="w-full bg-white"
+                            style="
+                                border: 0;
+                                border-radius: 12px;
+                                width: 100%;
+                                height: 70vh;
+                                min-height: 500px;
+                            "
+                            allowfullscreen
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-border py-6 mt-8">
+            <div
+                class="max-w-5xl mx-auto flex justify-center items-center px-4"
+            >
+                <div class="text-xs text-textSub text-center w-full">
+                    © 2025 Yoonwhan Ji. All rights reserved. jyh@eibe.co.kr
+                </div>
+            </div>
+        </footer>
+
+        <!-- FAQ 챗봇 -->
+        <div
+            id="faqbot"
+            class="fixed bottom-7 right-4 sm:right-6 z-50 flex flex-col items-end transition-all duration-300"
+        >
+            <button
+                id="faqbotBtn"
+                class="shadow-xl bg-primary hover:bg-primaryDark text-white flex items-center gap-2 px-5 py-3 rounded-full text-base font-bold transition-all mb- focus:outline-none btn-anim"
+                style="box-shadow: 0 6px 32px 0 rgba(73, 87, 243, 0.14)"
+            >
+                <dotlottie-player
+                    src="https://lottie.host/34ed2b04-38e0-4a18-ad34-68a6cf30be53/HpqKcqOGW6.lottie"
+                    background="transparent"
+                    speed="1"
+                    style="width: 24px; height: 24px"
+                    loop
+                    autoplay
+                ></dotlottie-player>
+                궁금해요
+            </button>
+            <div
+                id="faqbotPopup"
+                class="hidden w-[94vw] max-w-xs sm:w-80 sm:max-w-[90vw] bg-white border border-border rounded-2xl shadow-2xl flex flex-col animate-fadeUp overflow-hidden"
+                style="box-shadow: 0 8px 32px 0 rgba(40, 50, 93, 0.13)"
+            >
+                <div
+                    class="flex items-center justify-between px-5 py-4 border-b border-border bg-surface"
+                >
+                    <span
+                        class="text-lg font-bold text-primary flex items-center gap-2"
+                    >
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 8v4m0 4h.01" />
+                        </svg>
+                        도움말
+                    </span>
+                    <button
+                        id="faqbotClose"
+                        class="text-textSub hover:text-primary p-1 rounded transition focus:outline-none btn-anim"
+                        aria-label="닫기"
+                    >
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="px-5 pt-3">
+                    <input
+                        id="faqSearch"
+                        type="search"
+                        autocomplete="off"
+                        class="w-full px-3 py-2 rounded-lg border border-border text-sm focus:outline-none focus:border-primary transition"
+                        placeholder="질문 키워드로 검색하세요"
+                    />
+                </div>
+                <div
+                    class="flex-1 overflow-y-auto px-5 py-2 space-y-2 bg-white"
+                >
+                    <div id="faqList" class="space-y-2"></div>
+                </div>
+                <div
+                    class="text-xs text-textSub px-6 pb-3 pt-1 border-t border-border"
+                >
+                    빠른 답변이 필요하다면 관리자에게 문의해 주세요.
+                </div>
+            </div>
+        </div>
+
+        <!-- 인물사진 원본 모달 -->
+        <div
+            id="personModal"
+            class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300"
+        >
+            <div class="relative max-w-4xl max-h-[90vh] mx-4">
+                <!-- 모달 내용 -->
+                <div
+                    class="relative bg-white rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300"
+                >
+                    <!-- 이미지 -->
+                    <img
+                        id="modalImage"
+                        src=""
+                        alt="인물사진 원본"
+                        class="w-full h-auto max-h-[80vh] object-contain"
+                    />
+                    <!-- 닫기 버튼 -->
+                    <button
+                        id="closeModal"
+                        class="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                        aria-label="모달 닫기"
+                    >
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <!-- 인물 정보 -->
+                    <div
+                        class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6"
+                    >
+                        <h3
+                            id="modalTitle"
+                            class="text-white text-xl font-bold mb-2"
+                        ></h3>
+                        <p
+                            id="modalDescription"
+                            class="text-white/90 text-sm"
+                        ></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ===== IP 접근 권한 관리 시스템 =====
+            // 허용된 IP 범위 (전역변수)
+            const ALLOWED_IPS = {
+                // 외부 IP (회사 공인 IP)
+                external: ["112.219.220.204", "112.219.220.203"],
+
+                // 내부 네트워크 범위
+                internal: [
+                    "192.168.1.*", // ipv4 192.168.1.*
+                    "192.168.56.*", // ipv4 192.168.56.*
+                    "192.168.10.*", // 기본 게이트웨이 192.168.10.*
+                ],
+            };
+
+            // IP 주소가 허용된 범위에 있는지 확인하는 함수
+            function isIPAllowed(ip) {
+                // 정확한 IP 매칭 (외부 IP)
+                if (ALLOWED_IPS.external.includes(ip)) {
+                    return true;
+                }
+
+                // 와일드카드 패턴 매칭 (내부 네트워크)
+                for (let pattern of ALLOWED_IPS.internal) {
+                    if (pattern.endsWith(".*")) {
+                        const prefix = pattern.slice(0, -2); // '*' 제거
+                        if (ip.startsWith(prefix)) {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+
+            // 현재 클라이언트 IP 확인 (실제로는 서버에서 확인해야 함)
+            function getClientIP() {
+                // 실제 환경에서는 서버에서 클라이언트 IP를 전달받아야 함
+                // 여기서는 예시로 로컬 IP를 반환
+                return "192.168.1.100"; // 예시 IP
+            }
+
+            // 접근 권한 확인 및 처리
+            function checkAccessPermission() {
+                const clientIP = getClientIP();
+                const isAllowed = isIPAllowed(clientIP);
+
+                if (!isAllowed) {
+                    // 접근 거부 시 처리
+                    document.body.innerHTML = `
+                        <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif;">
+                            <div style="text-align: center; padding: 2rem; border: 1px solid #ccc; border-radius: 8px;">
+                                <h2 style="color: #e74c3c;">접근 권한이 없습니다</h2>
+                                <p>IP 주소: ${clientIP}</p>
+                                <p>허용된 IP 범위:</p>
+                                <ul style="text-align: left; display: inline-block;">
+                                    <li>${ALLOWED_IPS.external}</li>
+                                    ${ALLOWED_IPS.internal
+                                        .map((ip) => `<li>${ip}</li>`)
+                                        .join("")}
+                                </ul>
+                                <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                                    관리자에게 문의하세요.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    return false;
+                }
+
+                // 접근 허용 시 콘솔에 로그 출력
+                console.log(`✅ 접근 허용: ${clientIP}`);
+                return true;
+            }
+
+            // 페이지 로드 시 접근 권한 확인
+            document.addEventListener("DOMContentLoaded", function () {
+                // 접근 권한 확인 (실제 환경에서는 서버에서 처리)
+                // checkAccessPermission();
+
+                // 개발 환경에서는 주석 처리하고, 실제 배포 시 활성화
+                console.log("🔒 IP 접근 권한 시스템이 로드되었습니다.");
+                console.log("허용된 IP 범위:", ALLOWED_IPS);
+            });
+
+            // ===== 전역 변수 선언 =====
+            const navLinks = document.querySelectorAll("nav a[href^='#']");
+            const mainLogo = document.getElementById("mainLogo");
+            const hamburgerBtn = document.getElementById("hamburgerBtn");
+            const mobileNavPanel = document.getElementById("mobileNavPanel");
+            const mobileNavOverlay =
+                document.getElementById("mobileNavOverlay");
+            const mobileNavClose = document.getElementById("mobileNavClose");
+            const mobileLinks = mobileNavPanel.querySelectorAll("a");
+            const darkToggleBtn = document.getElementById("darkToggle");
+            const btn = document.getElementById("faqbotBtn");
+            const popup = document.getElementById("faqbotPopup");
+            const closeBtn = document.getElementById("faqbotClose");
+
+            let photoboothSwiper = null;
+
+            // ===== 성능 최적화를 위한 디바운스 함수 =====
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // ===== Section fade-in effect =====
+            document.querySelectorAll(".fade-section").forEach((section) => {
+                section.classList.add("visible");
+            });
+
+            // ===== Accordion toggle function =====
+            function toggleAccordion(id) {
+                document.getElementById(id).classList.toggle("hidden");
+            }
+
+            // ===== 개선된 스크롤 함수 =====
+            function smoothScrollToSection(targetId) {
+                // 먼저 섹션 자체를 찾기
+                const section = document.getElementById(targetId);
+
+                if (section) {
+                    // 실제 헤더 높이 계산
+                    const header = document.querySelector("header");
+                    const headerHeight = header ? header.offsetHeight : 100;
+
+                    // 더 정확한 스크롤 위치 계산
+                    const elementTop = section.offsetTop;
+                    const offsetPosition = elementTop - headerHeight - 20; // 20px 추가 여백
+
+                    window.scrollTo({
+                        top: Math.max(0, offsetPosition),
+                        behavior: "smooth",
+                    });
+                } else {
+                    console.warn(`Section with id "${targetId}" not found`);
+                }
+            }
+
+            // ===== PC 네비게이션 =====
+            navLinks.forEach((link, idx, arr) => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    // Remove nav-active class from all nav links
+                    arr.forEach((a) => a.classList.remove("nav-active"));
+                    // Add nav-active class to clicked nav link
+                    link.classList.add("nav-active");
+
+                    // Extract target ID from href (without #)
+                    const targetId = link.getAttribute("href").substring(1);
+
+                    // 개선된 스크롤 함수 사용
+                    smoothScrollToSection(targetId);
+
+                    // If the section has an accordion, open it (remove hidden)
+                    const accordion = document.getElementById(
+                        targetId + "Accordion"
+                    );
+                    if (accordion) accordion.classList.remove("hidden");
+                });
+            });
+
+            // ===== 모바일 네비게이션 =====
+            hamburgerBtn.addEventListener("click", () => {
+                mobileNavPanel.classList.add("open");
+                mobileNavPanel.classList.remove("hidden");
+                mobileNavOverlay.classList.remove("hidden");
+                document.body.style.overflow = "hidden";
+            });
+
+            function closeMobileNav() {
+                mobileNavPanel.classList.remove("open");
+                setTimeout(() => {
+                    mobileNavPanel.classList.add("hidden");
+                    mobileNavOverlay.classList.add("hidden");
+                    document.body.style.overflow = "";
+                }, 320);
+            }
+
+            mobileNavClose.addEventListener("click", closeMobileNav);
+            mobileNavOverlay.addEventListener("click", closeMobileNav);
+
+            mobileLinks.forEach((link) => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    // nav-active 갱신
+                    mobileLinks.forEach((a) =>
+                        a.classList.remove("nav-active")
+                    );
+                    link.classList.add("nav-active");
+
+                    // 모바일 메뉴 닫기
+                    closeMobileNav();
+
+                    // 스크롤 이동 (메뉴가 닫힌 후 실행)
+                    const targetId = link.getAttribute("href").substring(1);
+
+                    setTimeout(() => {
+                        smoothScrollToSection(targetId);
+
+                        // 아코디언 자동 열림
+                        const accordion = document.getElementById(
+                            targetId + "Accordion"
+                        );
+                        if (accordion) accordion.classList.remove("hidden");
+                    }, 350); // 메뉴 닫힘 애니메이션 완료 후 실행
+                });
+            });
+
+            // ===== 로고 클릭 시 맨 위로 이동 =====
+            if (mainLogo) {
+                mainLogo.addEventListener("click", () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            }
+
+            // ===== 첫 진입 시 해시 처리 =====
+            window.addEventListener("DOMContentLoaded", () => {
+                if (window.location.hash) {
+                    const targetId = window.location.hash.replace("#", "");
+                    setTimeout(() => {
+                        smoothScrollToSection(targetId);
+                    }, 100);
+                }
+            });
+
+            // ===== FAQ 챗봇 데이터 =====
+            const faqList = [
+                {
+                    q: "컴퓨터가 이상해요.<br>누구에게 요청해야 하나요?",
+                    a: "사무기기 등의 문제는 \n [경영관리실] 최혁준 사원님에게 \n 요청하시면 방문하여 지원해드립니다.",
+                },
+                {
+                    q: "인사(휴가 관련)는 <br> 누구에게 물어보나요?",
+                    a: "간단한 휴가 신청 등의 문의는 \n 각 소속 팀장님께 먼저 물어본 뒤,\n추가적으로 자세히 확인해야 할 \n내용이 있다면\n[경영관리실] 정아린 사원님에게\n문의해 주세요.\n휴가 신청, 근태 등 전반적인 인사 업무를 안내해 드립니다.",
+                },
+                {
+                    q: "패밀리데이 <br> & 소확행데이가 뭐에요?",
+                    a: "매달 마지막 주 금요일은 패밀리데이로,\n조기 퇴근 후 가족과 함께 시간을 가지도록 \n 지원합니다.\n마지막 주 월요일은 소확행데이로 \n 진행되며,맛있는 간식과 즐거운 대화로 \n 업무 스트레스를 날릴 수 있습니다.",
+                },
+                {
+                    q: "사내 매거진 <br> 사이트에 문제가 있어요.<br> 누구에게 말해줄까요?",
+                    a: "현재 보고 계신 사내 매거진 웹사이트의 \n 유지보수, 스케줄 변경 등은\n[전략기획실] 지윤환과장 에게 요청하시면 바로 지원해드립니다.",
+                },
+            ];
+
+            // ===== FAQ 챗봇 이벤트 =====
+            btn.addEventListener("click", () => {
+                popup.classList.toggle("hidden");
+                if (!popup.classList.contains("hidden"))
+                    document.getElementById("faqSearch").focus();
+            });
+
+            closeBtn.addEventListener("click", () =>
+                popup.classList.add("hidden")
+            );
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") popup.classList.add("hidden");
+            });
+
+            // ===== FAQ 렌더링 함수 =====
+            function renderFaq(filter = "") {
+                const $list = document.getElementById("faqList");
+                $list.innerHTML = "";
+                let filtered = faqList;
+                if (filter)
+                    filtered = faqList.filter(
+                        (item) =>
+                            item.q
+                                .toLowerCase()
+                                .includes(filter.toLowerCase()) ||
+                            item.a.toLowerCase().includes(filter.toLowerCase())
+                    );
+                if (filtered.length === 0) {
+                    $list.innerHTML =
+                        '<div class="text-sm text-textSub px-2 py-5 text-center">검색 결과가 없습니다.</div>';
+                    return;
+                }
+                filtered.forEach((item) => {
+                    const wrap = document.createElement("div");
+                    wrap.className =
+                        "rounded-lg border border-border bg-surface group transition-all overflow-hidden card-anim";
+                    const btn = document.createElement("button");
+                    btn.className =
+                        "flex w-full items-center justify-between px-4 py-3 font-semibold text-left focus:outline-none text-textMain group-hover:bg-primary/5 transition btn-anim";
+                    btn.innerHTML = `<span>${item.q}</span>
+            <svg class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>`;
+                    btn.setAttribute("aria-expanded", "false");
+                    btn.setAttribute("tabindex", "0");
+                    const ans = document.createElement("div");
+                    ans.className = "faq-ans px-4 pb-3 text-textSub text-sm";
+                    ans.innerText = item.a;
+                    btn.onclick = function () {
+                        const expanded =
+                            btn.getAttribute("aria-expanded") === "true";
+                        document
+                            .querySelectorAll("#faqList button")
+                            .forEach((b) =>
+                                b.setAttribute("aria-expanded", "false")
+                            );
+                        document
+                            .querySelectorAll("#faqList .faq-ans")
+                            .forEach((a) => a.classList.remove("show"));
+                        if (!expanded) {
+                            btn.setAttribute("aria-expanded", "true");
+                            ans.classList.add("show");
+                        }
+                    };
+                    wrap.appendChild(btn);
+                    wrap.appendChild(ans);
+                    $list.appendChild(wrap);
+                });
+            }
+
+            renderFaq();
+
+            document
+                .getElementById("faqSearch")
+                .addEventListener("input", (e) => {
+                    renderFaq(e.target.value.trim());
+                });
+
+            // ===== 다크모드 토글 =====
+            // Ripple effect function
+            function createRipple(event) {
+                const button = event.currentTarget;
+                const ripple = document.createElement("span");
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = event.clientX - rect.left - size / 2;
+                const y = event.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + "px";
+                ripple.style.left = x + "px";
+                ripple.style.top = y + "px";
+                ripple.classList.add("ripple");
+
+                button.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+
+            // Enhanced dark mode toggle
+            darkToggleBtn.addEventListener("click", (e) => {
+                // Create ripple effect
+                createRipple(e);
+
+                // Add pulse animation
+                darkToggleBtn.classList.add("pulse");
+                setTimeout(() => {
+                    darkToggleBtn.classList.remove("pulse");
+                }, 600);
+
+                // Toggle dark mode
+                const isDark =
+                    document.documentElement.classList.toggle("dark");
+                darkToggleBtn.classList.toggle("dark", isDark);
+
+                // Save preference to localStorage
+                localStorage.setItem("darkMode", isDark ? "dark" : "light");
+            });
+
+            // Initialize dark mode (기본값: 라이트모드)
+            function initializeDarkMode() {
+                const savedMode = localStorage.getItem("darkMode");
+
+                // 저장된 다크모드 설정이 있으면 그대로 사용
+                if (savedMode === "dark") {
+                    document.documentElement.classList.add("dark");
+                    darkToggleBtn.classList.add("dark");
+                } else {
+                    // 저장된 설정이 없거나 라이트모드면 라이트모드로 시작
+                    document.documentElement.classList.remove("dark");
+                    darkToggleBtn.classList.remove("dark");
+                }
+            }
+
+            // Initialize on page load
+            initializeDarkMode();
+
+            // Listen for system preference changes
+            window
+                .matchMedia("(prefers-color-scheme: dark)")
+                .addEventListener("change", (e) => {
+                    if (!localStorage.getItem("darkMode")) {
+                        if (e.matches) {
+                            document.documentElement.classList.add("dark");
+                            darkToggleBtn.classList.add("dark");
+                        } else {
+                            document.documentElement.classList.remove("dark");
+                            darkToggleBtn.classList.remove("dark");
+                        }
+                    }
+                });
+
+            // ===== 포토부스 Swiper 캐러셀 =====
+            // Swiper 초기화 함수
+            function initPhotoboothSwiper() {
+                if (typeof Swiper !== "undefined") {
+                    photoboothSwiper = new Swiper(".photobooth-swiper", {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                        loop: true,
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                            pauseOnMouseEnter: true,
+                        },
+                        pagination: {
+                            el: ".swiper-pagination",
+                            clickable: true,
+                            dynamicBullets: true,
+                        },
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        },
+                        breakpoints: {
+                            640: {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                            },
+                            1024: {
+                                slidesPerView: 3,
+                                spaceBetween: 30,
+                            },
+                        },
+                        effect: "slide",
+                        speed: 600,
+                        grabCursor: true,
+                        watchOverflow: true,
+                        preventClicks: false,
+                        preventClicksPropagation: false,
+                        touchRatio: 1,
+                        touchAngle: 45,
+                        simulateTouch: true,
+                        shortSwipes: true,
+                        longSwipes: true,
+                        longSwipesRatio: 0.5,
+                        longSwipesMs: 300,
+                        followFinger: true,
+                        threshold: 0,
+                        touchMoveStopPropagation: false,
+                        iOSEdgeSwipeDetection: true,
+                        iOSEdgeSwipeThreshold: 20,
+                        touchEventsTarget: "container",
+                        autoHeight: false,
+                        setWrapperSize: true,
+                        virtualTranslate: false,
+                        fadeEffect: {
+                            crossFade: false,
+                        },
+                        cubeEffect: {
+                            slideShadows: true,
+                            shadow: true,
+                            shadowOffset: 20,
+                            shadowScale: 0.94,
+                        },
+                        flipEffect: {
+                            slideShadows: true,
+                            limitRotation: true,
+                        },
+                        coverflowEffect: {
+                            rotate: 50,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 1,
+                            slideShadows: true,
+                        },
+                        on: {
+                            init: function () {
+                                console.log("Photobooth Swiper initialized");
+                            },
+                            slideChange: function () {
+                                // 성능 최적화를 위한 이벤트 처리
+                            },
+                            touchStart: function () {
+                                // 터치 시작 시 자동재생 일시정지
+                                if (this.autoplay && this.autoplay.running) {
+                                    this.autoplay.stop();
+                                }
+                            },
+                            touchEnd: function () {
+                                // 터치 종료 시 자동재생 재시작
+                                if (this.autoplay && !this.autoplay.running) {
+                                    this.autoplay.start();
+                                }
+                            },
+                        },
+                    });
+                } else {
+                    // Swiper 로드 실패 시 폴백
+                    console.warn("Swiper not loaded, using fallback");
+                    setTimeout(initPhotoboothSwiper, 100);
+                }
+            }
+
+            // DOM 로드 완료 후 Swiper 초기화
+            if (document.readyState === "loading") {
+                document.addEventListener(
+                    "DOMContentLoaded",
+                    initPhotoboothSwiper
+                );
+            } else {
+                initPhotoboothSwiper();
+            }
+
+            // ===== 댓글 시스템 (Google Apps Script 연동) =====
+            const commentInput = document.getElementById("commentInput");
+            const commentName = document.getElementById("commentName");
+            const anonymousCheck = document.getElementById("anonymousCheck");
+            const submitComment = document.getElementById("submitComment");
+            const commentList = document.getElementById("commentList");
+            const refreshComments = document.getElementById("refreshComments");
+            const charCount = document.getElementById("charCount");
+            const commentPagination =
+                document.getElementById("commentPagination");
+            const prevPage = document.getElementById("prevPage");
+            const nextPage = document.getElementById("nextPage");
+            const paginationInfo = document.getElementById("paginationInfo");
+
+            // Google Apps Script API 설정 (JSONP 방식)
+            // ✅ 2025-01-26 새로운 배포 완료
+            const GAS_API_URL =
+                "https://script.google.com/macros/s/AKfycbzi8dhqZg0XsJmxfjXM2tWcYFLv-Db0gm4rzEbYb2pRtfvNgc9xu8zBNnyedtgGE0QKzQ/exec";
+
+            // 댓글 데이터 저장소
+            let comments = [];
+            let isLoading = false;
+
+            // 페이지네이션 설정
+            const COMMENTS_PER_PAGE = 10;
+            let currentPage = 1;
+            let totalPages = 1;
+
+            // API 호출 함수 (JSONP 방식으로 CORS 우회)
+            async function callGASAPI(action, data = {}) {
+                return new Promise((resolve, reject) => {
+                    try {
+                        console.log("API 호출 시작:", action, data);
+
+                        // JSONP 방식으로 호출
+                        const url = new URL(GAS_API_URL);
+                        url.searchParams.append("action", action);
+
+                        if (Object.keys(data).length > 0) {
+                            url.searchParams.append(
+                                "data",
+                                JSON.stringify(data)
+                            );
+                        }
+
+                        console.log("API URL:", url.toString());
+
+                        // 콜백 함수명 생성
+                        const callbackName =
+                            "jsonpCallback_" +
+                            Date.now() +
+                            "_" +
+                            Math.random().toString(36).substr(2, 9);
+
+                        console.log("콜백 함수명:", callbackName);
+
+                        // 전역 콜백 함수 생성
+                        window[callbackName] = function (result) {
+                            console.log("JSONP 응답 받음:", result);
+
+                            // 콜백 함수 정리
+                            delete window[callbackName];
+                            if (script.parentNode) {
+                                document.head.removeChild(script);
+                            }
+
+                            if (result.status === "success") {
+                                resolve(result);
+                            } else {
+                                reject(
+                                    new Error(result.message || "API 호출 실패")
+                                );
+                            }
+                        };
+
+                        // URL에 콜백 파라미터 추가
+                        url.searchParams.append("callback", callbackName);
+
+                        // 스크립트 태그 생성 및 추가
+                        const script = document.createElement("script");
+                        script.src = url.toString();
+                        script.onerror = function () {
+                            console.error("JSONP 스크립트 로드 실패");
+                            delete window[callbackName];
+                            if (script.parentNode) {
+                                document.head.removeChild(script);
+                            }
+
+                            // JSONP 실패 시 로컬 폴백
+                            if (action === "get") {
+                                resolve({
+                                    status: "success",
+                                    comments: [
+                                        {
+                                            id: "temp_1",
+                                            author: "테스트 사용자",
+                                            content:
+                                                "JSONP 연결 실패 - 로컬 모드",
+                                            timestamp: new Date().toISOString(),
+                                            likes: 0,
+                                            isAnonymous: false,
+                                        },
+                                    ],
+                                });
+                            } else if (action === "add") {
+                                resolve({
+                                    status: "success",
+                                    message:
+                                        "댓글이 추가되었습니다. (로컬 모드)",
+                                    comment: {
+                                        id: "local_" + Date.now(),
+                                        author: data.author || "사용자",
+                                        content: data.content || "",
+                                        timestamp: new Date().toISOString(),
+                                        likes: 0,
+                                        isAnonymous: data.isAnonymous || false,
+                                    },
+                                });
+                            } else {
+                                reject(new Error("JSONP 요청 실패"));
+                            }
+                        };
+
+                        // 타임아웃 설정 (15초로 연장)
+                        setTimeout(() => {
+                            if (window[callbackName]) {
+                                console.error("JSONP 요청 시간 초과");
+                                delete window[callbackName];
+                                if (script.parentNode) {
+                                    document.head.removeChild(script);
+                                }
+                                reject(new Error("요청 시간 초과"));
+                            }
+                        }, 30000);
+
+                        document.head.appendChild(script);
+                        console.log("JSONP 스크립트 추가됨");
+                    } catch (error) {
+                        console.error("API 호출 오류:", error);
+                        reject(error);
+                    }
+                });
+            }
+
+            // 좋아요 토글
+            async function toggleLike(commentId) {
+                try {
+                    const result = await callGASAPI("like", { commentId });
+
+                    if (result.status === "success") {
+                        // 로컬 댓글 데이터 업데이트
+                        const comment = comments.find(
+                            (c) => c.id === commentId
+                        );
+                        if (comment) {
+                            comment.likes = result.likes;
+                            renderComments();
+                        }
+                    } else {
+                        showNotification(
+                            result.message || "좋아요 처리에 실패했습니다.",
+                            "error"
+                        );
+                    }
+                } catch (error) {
+                    console.error("좋아요 토글 오류:", error);
+                    showNotification(
+                        "좋아요 처리 중 오류가 발생했습니다.",
+                        "error"
+                    );
+                }
+            }
+
+            // 댓글 수 업데이트
+            function updateCommentCount() {
+                const countElement = document.querySelector(
+                    "#issue .bg-primary\\/10"
+                );
+                if (countElement) {
+                    countElement.textContent = comments.length;
+                }
+            }
+
+            // 로딩 상태 표시
+            function showLoadingState(show) {
+                if (!commentList) return;
+
+                if (show) {
+                    commentList.innerHTML = `
+                        <div class="flex items-center justify-center h-full">
+                            <div class="text-center">
+                                <dotlottie-player
+                                    src="https://lottie.host/1c78c917-fdaf-44c1-8677-29f704af77fc/hTuA2LgSmc.lottie"
+                                    background="transparent"
+                                    speed="1"
+                                    style="width: 120px; height: 120px"
+                                    loop
+                                    autoplay
+                                ></dotlottie-player>
+                                <p class="text-sm text-textSub mt-2">댓글을 불러오는 중...</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // 시간 표시 함수
+            function getTimeAgo(timestamp) {
+                const now = new Date();
+                const commentTime = new Date(timestamp);
+                const diffInSeconds = Math.floor((now - commentTime) / 1000);
+
+                if (diffInSeconds < 60) return "방금 전";
+                if (diffInSeconds < 3600)
+                    return `${Math.floor(diffInSeconds / 60)}분 전`;
+                if (diffInSeconds < 86400)
+                    return `${Math.floor(diffInSeconds / 3600)}시간 전`;
+                if (diffInSeconds < 2592000)
+                    return `${Math.floor(diffInSeconds / 86400)}일 전`;
+
+                return commentTime.toLocaleDateString("ko-KR");
+            }
+
+            // HTML 이스케이프
+            function escapeHtml(text) {
+                const div = document.createElement("div");
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // 문자 수 업데이트
+            function updateCharCount() {
+                const count = commentInput.value.length;
+                charCount.textContent = count;
+
+                // 450자 이상이면 경고 색상
+                if (count >= 450) {
+                    charCount.classList.add("text-red-500");
+                } else {
+                    charCount.classList.remove("text-red-500");
+                }
+            }
+
+            // 제출 버튼 상태 업데이트
+            function updateSubmitButton() {
+                const text = commentInput.value.trim();
+                const name = commentName.value.trim();
+                const isAnonymous = anonymousCheck.checked;
+
+                const canSubmit = text && (isAnonymous || name);
+                submitComment.disabled = !canSubmit;
+            }
+
+            // 이벤트 리스너 설정
+            submitComment.addEventListener("click", addComment);
+
+            commentInput.addEventListener("input", () => {
+                updateCharCount();
+                updateSubmitButton();
+            });
+
+            commentName.addEventListener("input", updateSubmitButton);
+
+            anonymousCheck.addEventListener("change", () => {
+                if (anonymousCheck.checked) {
+                    commentName.disabled = true;
+                    commentName.value = "";
+                } else {
+                    commentName.disabled = false;
+                }
+                updateSubmitButton();
+            });
+
+            commentInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!submitComment.disabled) {
+                        addComment();
+                    }
+                }
+            });
+
+            // 좋아요 버튼 이벤트 (이벤트 위임)
+            document.addEventListener("click", (e) => {
+                if (e.target.closest(".like-btn")) {
+                    const button = e.target.closest(".like-btn");
+                    const commentId = button.dataset.commentId;
+                    if (commentId) {
+                        toggleLike(commentId);
+                    }
+                }
+            });
+
+            // 새로고침 버튼 이벤트
+            refreshComments.addEventListener("click", async () => {
+                if (isLoading) return;
+
+                // 버튼 애니메이션 시작
+                const refreshIcon = refreshComments.querySelector("svg");
+                refreshIcon.style.transform = "rotate(360deg)";
+                refreshComments.disabled = true;
+                refreshComments.classList.add("opacity-50");
+
+                // 색상 매핑 초기화 (새로고침 시 색상 변경)
+                clearCommentColorMapping();
+
+                // 새로고침 실행
+                await loadComments();
+
+                // 애니메이션 완료 후 버튼 상태 복원
+                setTimeout(() => {
+                    refreshIcon.style.transform = "rotate(0deg)";
+                    refreshComments.disabled = false;
+                    refreshComments.classList.remove("opacity-50");
+                }, 500);
+
+                // 성공 메시지 표시
+                showNotification("댓글이 새로고침되었습니다!", "success");
+            });
+
+            // 댓글 색상 매핑 초기화 함수
+            function clearCommentColorMapping() {
+                const keys = Object.keys(sessionStorage);
+                keys.forEach((key) => {
+                    if (key.startsWith("comment_color_")) {
+                        sessionStorage.removeItem(key);
+                    }
+                });
+            }
+
+            // 페이지 로드 시 댓글 불러오기
+            document.addEventListener("DOMContentLoaded", () => {
+                loadComments();
+                updateCharCount();
+                updateSubmitButton();
+
+                // 1분 마다 댓글 새로고침 (실시간 느낌)
+                setInterval(() => {
+                    loadComments();
+                }, 60000);
+            });
+
+            // 간단한 알림 시스템
+            function showNotification(message, type = "info") {
+                const notification = document.createElement("div");
+                notification.className = `fixed top-4 right-4 z-50 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 transform translate-x-full ${
+                    type === "success"
+                        ? "bg-green-500"
+                        : type === "error"
+                        ? "bg-red-500"
+                        : "bg-blue-500"
+                }`;
+                notification.textContent = message;
+
+                document.body.appendChild(notification);
+
+                // 애니메이션
+                setTimeout(() => {
+                    notification.classList.remove("translate-x-full");
+                }, 100);
+
+                // 자동 제거
+                setTimeout(() => {
+                    notification.classList.add("translate-x-full");
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+
+            // 댓글 목록 가져오기
+            async function loadComments() {
+                if (isLoading) return;
+
+                isLoading = true;
+                showLoadingState(true);
+
+                try {
+                    const result = await callGASAPI("get");
+
+                    if (result.status === "success") {
+                        comments = result.comments || [];
+                        renderComments();
+                        updateCommentCount();
+                    } else {
+                        showNotification(
+                            "댓글을 불러오는데 실패했습니다.",
+                            "error"
+                        );
+                    }
+                } catch (error) {
+                    console.error("댓글 로드 오류:", error);
+                    showNotification(
+                        "댓글을 불러오는데 실패했습니다.",
+                        "error"
+                    );
+                } finally {
+                    isLoading = false;
+                    showLoadingState(false);
+                }
+            }
+
+            // 댓글 렌더링
+            function renderComments() {
+                if (!commentList) return;
+
+                // 최신순으로 정렬
+                comments.sort(
+                    (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+                );
+
+                if (comments.length === 0) {
+                    commentList.innerHTML = `
+                        <div class="flex items-center justify-center h-full">
+                            <div class="text-center text-textSub">
+                                <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                <p class="text-sm">아직 댓글이 없습니다.<br>첫 번째 댓글을 남겨보세요!</p>
+                            </div>
+                        </div>
+                    `;
+                    commentPagination.classList.add("hidden");
+                    return;
+                }
+
+                // 페이지네이션 적용
+                updatePagination();
+            }
+
+            // 댓글 요소 생성
+            function createCommentElement(comment) {
+                const commentDiv = document.createElement("div");
+                commentDiv.className =
+                    "flex gap-3 p-4 bg-white/50 rounded-xl border border-border/30 animate-fadeUp comment-item";
+                commentDiv.dataset.commentId = comment.id;
+
+                // author 필드 타입 검증 및 안전한 처리
+                const author = comment.author || "익명";
+                const authorString =
+                    typeof author === "string" ? author : String(author);
+                const initials = authorString.charAt(0) || "익";
+
+                const colors = [
+                    "from-primary to-blue-500",
+                    "from-accent to-green-500",
+                    "from-primaryDark to-purple-500",
+                    "from-orange-500 to-red-500",
+                    "from-pink-500 to-purple-500",
+                    "from-yellow-500 to-orange-500",
+                    "from-blue-500 to-indigo-500",
+                    "from-green-500 to-teal-500",
+                    "from-purple-500 to-pink-500",
+                    "from-red-500 to-pink-500",
+                    "from-indigo-500 to-purple-500",
+                    "from-teal-500 to-cyan-500",
+                    "from-cyan-500 to-blue-500",
+                    "from-emerald-500 to-green-500",
+                    "from-violet-500 to-purple-500",
+                    "from-rose-500 to-pink-500",
+                    "from-amber-500 to-orange-500",
+                    "from-lime-500 to-green-500",
+                    "from-sky-500 to-blue-500",
+                    "from-fuchsia-500 to-purple-500",
+                    "from-cyan-500 to-teal-500",
+                    "from-blue-500 to-violet-500",
+                    "from-green-500 to-emerald-500",
+                    "from-purple-500 to-indigo-500",
+                    "from-pink-500 to-rose-500",
+                    "from-orange-500 to-amber-500",
+                    "from-red-500 to-orange-500",
+                    "from-yellow-500 to-lime-500",
+                    "from-indigo-500 to-blue-500",
+                    "from-teal-500 to-green-500",
+                ];
+
+                // 세션 기반 랜덤 색상 선택 - 새로고침할 때마다 다른 색상
+                let colorIndex;
+
+                // 세션 스토리지에서 색상 매핑 확인
+                const colorMappingKey = `comment_color_${comment.id}`;
+                let storedColorIndex = sessionStorage.getItem(colorMappingKey);
+
+                if (storedColorIndex === null) {
+                    // 새로운 색상 할당 - 작성자 이름과 타임스탬프를 조합하여 랜덤성 향상
+                    const seed = authorString + comment.timestamp + Date.now();
+                    let hashValue = 0;
+                    for (let i = 0; i < seed.length; i++) {
+                        hashValue =
+                            ((hashValue << 5) -
+                                hashValue +
+                                seed.charCodeAt(i)) &
+                            0xffffffff;
+                    }
+                    colorIndex = Math.abs(hashValue) % colors.length;
+                    sessionStorage.setItem(
+                        colorMappingKey,
+                        colorIndex.toString()
+                    );
+                } else {
+                    // 기존 색상 사용
+                    colorIndex = parseInt(storedColorIndex);
+                }
+
+                const randomColor = colors[colorIndex];
+
+                const timeAgo = getTimeAgo(comment.timestamp);
+
+                commentDiv.innerHTML = `
+                    <div class="w-8 h-8 bg-gradient-to-br ${randomColor} rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                        ${initials}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="font-semibold text-textMain text-sm">${authorString}</span>
+                            <span class="text-xs text-textSub">${timeAgo}</span>
+                            ${
+                                comment.isAnonymous
+                                    ? '<span class="text-xs bg-gray-100 text-gray-600 px-1 rounded">익명</span>'
+                                    : ""
+                            }
+                        </div>
+                        <p class="text-textMain text-sm leading-relaxed">${escapeHtml(
+                            comment.content
+                        )}</p>
+                        <div class="flex items-center gap-4 mt-2">
+                            <button class="like-btn text-xs text-textSub hover:text-primary transition flex items-center gap-1" data-comment-id="${
+                                comment.id
+                            }">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                </svg>
+                                좋아요 <span class="like-count">${
+                                    comment.likes || 0
+                                }</span>
+                            </button>
+          
+                        </div>
+                    </div>
+                `;
+
+                return commentDiv;
+            }
+
+            // 댓글 추가
+            async function addComment() {
+                const text = commentInput.value.trim();
+                const name = commentName.value.trim();
+                const isAnonymous = anonymousCheck.checked;
+
+                if (!text) {
+                    showNotification("댓글 내용을 입력해주세요.", "error");
+                    return;
+                }
+
+                if (!isAnonymous && !name) {
+                    showNotification(
+                        "이름을 입력하거나 익명 체크를 해주세요.",
+                        "error"
+                    );
+                    return;
+                }
+
+                // 버튼 상태 변경
+                submitComment.disabled = true;
+                const originalText = submitComment.textContent;
+                submitComment.textContent = "작성 중...";
+
+                try {
+                    const result = await callGASAPI("add", {
+                        content: text,
+                        isAnonymous: isAnonymous,
+                        author: isAnonymous ? "익명" : name,
+                    });
+
+                    if (result.status === "success") {
+                        // 새 댓글을 목록 맨 위에 추가
+                        if (result.comment) {
+                            comments.unshift(result.comment);
+                        } else {
+                            // 서버에서 comment를 반환하지 않는 경우 로컬에서 생성
+                            comments.unshift({
+                                id: "local_" + Date.now(),
+                                author: isAnonymous ? "익명" : name,
+                                content: text,
+                                timestamp: new Date().toISOString(),
+                                likes: 0,
+                                isAnonymous: isAnonymous,
+                            });
+                        }
+                        renderComments();
+                        updateCommentCount();
+
+                        // 입력창 초기화
+                        commentInput.value = "";
+                        commentName.value = "";
+                        anonymousCheck.checked = false;
+                        updateCharCount();
+                        updateSubmitButton();
+
+                        showNotification("댓글이 작성되었습니다!", "success");
+                    } else {
+                        showNotification(
+                            result.message || "댓글 작성에 실패했습니다.",
+                            "error"
+                        );
+                    }
+                } catch (error) {
+                    console.error("댓글 추가 오류:", error);
+                    showNotification(
+                        "댓글 작성 중 오류가 발생했습니다.",
+                        "error"
+                    );
+                } finally {
+                    // 버튼 상태 복원
+                    submitComment.disabled = false;
+                    submitComment.textContent = originalText;
+                }
+            }
+
+            // ===== 인물사진 모달 시스템 =====
+            const personModal = document.getElementById("personModal");
+            const modalImage = document.getElementById("modalImage");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalDescription =
+                document.getElementById("modalDescription");
+            const closeModal = document.getElementById("closeModal");
+
+            // 인물 데이터
+            const personData = {
+                "인물1.png": {
+                    title: "최고 출근왕",
+                    description: "이번 달 가장 빠른 출근을 기록한 김철수 대리",
+                },
+                "인물2.png": {
+                    title: "정시 출근왕",
+                    description: "매일 정확히 9시에 출근하는 이영희 사원",
+                },
+                "인물3.png": {
+                    title: "팀워크 출근왕",
+                    description: "팀원들과 함께 출근하는 박민수 팀장",
+                },
+            };
+
+            // 모달 열기
+            function openPersonModal(imageSrc, personName) {
+                const data = personData[imageSrc] || {
+                    title: personName,
+                    description: "EIBE 팀원",
+                };
+
+                modalImage.src = `./people/${imageSrc}`;
+                modalTitle.textContent = data.title;
+                modalDescription.textContent = data.description;
+
+                // 모달 표시
+                personModal.classList.remove(
+                    "opacity-0",
+                    "pointer-events-none"
+                );
+                personModal
+                    .querySelector(".bg-white")
+                    .classList.remove("scale-95");
+                personModal
+                    .querySelector(".bg-white")
+                    .classList.add("scale-100");
+
+                // 스크롤 방지
+                document.body.style.overflow = "hidden";
+            }
+
+            // 모달 닫기
+            function closePersonModal() {
+                personModal.classList.add("opacity-0", "pointer-events-none");
+                personModal
+                    .querySelector(".bg-white")
+                    .classList.remove("scale-100");
+                personModal
+                    .querySelector(".bg-white")
+                    .classList.add("scale-95");
+
+                // 스크롤 복원
+                document.body.style.overflow = "";
+            }
+
+            // 모달 이벤트 리스너
+            closeModal.addEventListener("click", closePersonModal);
+            personModal.addEventListener("click", (e) => {
+                if (e.target === personModal) {
+                    closePersonModal();
+                }
+            });
+
+            // ESC 키로 모달 닫기
+            document.addEventListener("keydown", (e) => {
+                if (
+                    e.key === "Escape" &&
+                    !personModal.classList.contains("opacity-0")
+                ) {
+                    closePersonModal();
+                }
+            });
+
+            // 인물사진 클릭 이벤트 (이벤트 위임)
+            document.addEventListener("click", (e) => {
+                const personImage = e.target.closest(
+                    ".person-image-container img"
+                );
+                if (personImage) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const imageSrc = personImage.src.split("/").pop();
+                    const personName = personImage.alt;
+
+                    openPersonModal(imageSrc, personName);
+                }
+            });
+
+            // ===== 이스터 에그 모달 시스템 =====
+            const easterEggEmail = document.getElementById("easterEggEmail");
+            const easterEggModal = document.getElementById("easterEggModal");
+            const closeEasterEggModal = document.getElementById(
+                "closeEasterEggModal"
+            );
+
+            // 이스터 에그 모달 열기
+            function openEasterEggModal() {
+                easterEggModal.classList.remove(
+                    "opacity-0",
+                    "pointer-events-none"
+                );
+                easterEggModal
+                    .querySelector(".bg-white")
+                    .classList.remove("scale-95");
+                easterEggModal
+                    .querySelector(".bg-white")
+                    .classList.add("scale-100");
+
+                // 스크롤 방지
+                document.body.style.overflow = "hidden";
+
+                // 호버 효과 추가
+                easterEggEmail.classList.add("animate-pulse");
+                setTimeout(() => {
+                    easterEggEmail.classList.remove("animate-pulse");
+                }, 1000);
+            }
+
+            // 이스터 에그 모달 닫기
+            function closeEasterEggModalFunc() {
+                easterEggModal.classList.add(
+                    "opacity-0",
+                    "pointer-events-none"
+                );
+                easterEggModal
+                    .querySelector(".bg-white")
+                    .classList.remove("scale-100");
+                easterEggModal
+                    .querySelector(".bg-white")
+                    .classList.add("scale-95");
+
+                // 스크롤 복원
+                document.body.style.overflow = "";
+            }
+
+            // 이벤트 리스너 설정
+            easterEggEmail.addEventListener("click", (e) => {
+                e.preventDefault();
+                openEasterEggModal();
+            });
+
+            closeEasterEggModal.addEventListener(
+                "click",
+                closeEasterEggModalFunc
+            );
+
+            // 모달 외부 클릭 시 닫기
+            easterEggModal.addEventListener("click", (e) => {
+                if (e.target === easterEggModal) {
+                    closeEasterEggModalFunc();
+                }
+            });
+
+            // ESC 키로 모달 닫기
+            document.addEventListener("keydown", (e) => {
+                if (
+                    e.key === "Escape" &&
+                    !easterEggModal.classList.contains("opacity-0")
+                ) {
+                    closeEasterEggModalFunc();
+                }
+            });
+
+            // 이스터 에그 호버 효과
+            easterEggEmail.addEventListener("mouseenter", () => {
+                easterEggEmail.style.transform = "scale(1.05)";
+            });
+
+            easterEggEmail.addEventListener("mouseleave", () => {
+                easterEggEmail.style.transform = "scale(1)";
+            });
+
+            // ===== 페이지네이션 함수들 =====
+            // 페이지네이션 함수
+            function updatePagination() {
+                const startIndex = (currentPage - 1) * COMMENTS_PER_PAGE;
+                const endIndex = startIndex + COMMENTS_PER_PAGE;
+                const visibleComments = comments.slice(startIndex, endIndex);
+
+                commentList.innerHTML = "";
+                visibleComments.forEach((comment) => {
+                    const commentDiv = createCommentElement(comment);
+                    commentList.appendChild(commentDiv);
+                });
+
+                const totalComments = comments.length;
+                totalPages = Math.ceil(totalComments / COMMENTS_PER_PAGE);
+
+                // 페이지네이션 표시/숨김 처리
+                if (totalComments > COMMENTS_PER_PAGE) {
+                    commentPagination.classList.remove("hidden");
+                    paginationInfo.textContent = `${startIndex + 1}-${Math.min(
+                        endIndex,
+                        totalComments
+                    )} / ${totalComments}`;
+                    prevPage.disabled = currentPage === 1;
+                    nextPage.disabled = endIndex >= totalComments;
+                } else {
+                    commentPagination.classList.add("hidden");
+                }
+            }
+
+            // 페이지네이션 이벤트 리스너
+            prevPage.addEventListener("click", () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                }
+            });
+
+            nextPage.addEventListener("click", () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updatePagination();
+                }
+            });
+        </script>
+    </body>
+</html>

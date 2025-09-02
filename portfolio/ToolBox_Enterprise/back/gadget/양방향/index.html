@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>댓글 시스템 목업</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background: #f5f5f5;
+            }
+
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+
+            .comment-list {
+                max-height: 300px;
+                overflow-y: auto;
+                border: 1px solid #ddd;
+                padding: 10px;
+                margin-bottom: 15px;
+                background: #f9f9f9;
+            }
+
+            .comment-item {
+                border-bottom: 1px solid #eee;
+                padding: 10px 0;
+            }
+
+            .comment-author {
+                font-weight: bold;
+                color: #007bff;
+            }
+
+            .comment-content {
+                margin: 5px 0;
+            }
+
+            .comment-time {
+                font-size: 12px;
+                color: #666;
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            .form-group textarea {
+                height: 80px;
+                resize: vertical;
+            }
+
+            .btn {
+                background: #007bff;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+
+            .btn:hover {
+                background: #0056b3;
+            }
+
+            .btn:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+
+            .refresh-btn {
+                background: #28a745;
+            }
+
+            .error {
+                color: #dc3545;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+
+            .success {
+                color: #28a745;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+
+            .loading {
+                color: #007bff;
+                font-style: italic;
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .pagination button {
+                padding: 5px 10px;
+                border: 1px solid #ddd;
+                background: white;
+                cursor: pointer;
+            }
+
+            .pagination button:disabled {
+                background: #f5f5f5;
+                cursor: not-allowed;
+            }
+
+            .pagination-info {
+                font-size: 14px;
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>댓글 시스템 목업</h1>
+
+            <!-- 댓글 목록 -->
+            <div id="commentList" class="comment-list">
+                <div class="loading">댓글을 불러오는 중...</div>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div
+                id="commentPagination"
+                class="pagination"
+                style="display: none"
+            >
+                <button id="prevPage">이전</button>
+                <span id="paginationInfo" class="pagination-info"
+                    >1-10 / 0</span
+                >
+                <button id="nextPage">다음</button>
+            </div>
+
+            <!-- 댓글 작성 폼 -->
+            <div>
+                <div class="form-group">
+                    <label for="commentName">이름 (선택):</label>
+                    <input
+                        type="text"
+                        id="commentName"
+                        placeholder="이름을 입력하세요"
+                        maxlength="20"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="anonymousCheck" /> 익명으로
+                        작성
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="commentInput">댓글 내용:</label>
+                    <textarea
+                        id="commentInput"
+                        placeholder="함께 이야기해요:)"
+                        maxlength="500"
+                    ></textarea>
+                    <div>글자 수: <span id="charCount">0</span>/500</div>
+                </div>
+
+                <div class="form-group">
+                    <button id="submitComment" class="btn">댓글 작성</button>
+                    <button id="refreshComments" class="btn refresh-btn">
+                        새로고침
+                    </button>
+                </div>
+
+                <div id="message"></div>
+            </div>
+        </div>
+
+        <script>
+            // ===== 댓글 시스템 목업 - Google Apps Script 연동 =====
+            //
+            // 🎯 목적: 간단한 댓글 시스템으로 실제 API와 연동 테스트
+            //
+            // 📋 주요 기능:
+            // - 댓글 추가/조회 (Google Apps Script API 연동)
+            // - 페이지네이션 (한 페이지당 10개)
+            // - 익명 댓글 지원
+            // - 실시간 글자 수 카운트 (500자 제한)
+            // - 엔터키로 댓글 작성 (Shift+Enter는 줄바꿈)
+            //
+            // 🔧 API 엔드포인트:
+            // - GET /?action=get - 댓글 목록 조회
+            // - GET /?action=add&data={...} - 댓글 추가
+            //
+            // 📝 사용법:
+            // 1. 아래 API_URL을 실제 Google Apps Script 웹앱 URL로 변경
+            // 2. 댓글 작성 및 조회 테스트
+            // 3. 페이지네이션으로 댓글 탐색
+            // 4. 새로고침으로 최신 댓글 확인
+            //
+            // ⚠️ 중요: API_URL만 변경하면 바로 사용 가능!
+            //
+            // 💡 배운 경험 & 주의사항:
+            //
+            // 🚨 데이터 구조 문제:
+            // - Google Sheets에서 헤더가 없으면 slice(1)로 첫 줄을 제거하면 실제 데이터가 사라짐
+            // - 해결책: getSheet() 함수에서 시트가 없으면 자동으로 헤더 생성
+            //
+            // 🚨 시간대 문제:
+            // - new Date("2025-08-07 20:31") → 1899-12-30 (잘못된 파싱)
+            // - 해결책: new Date("2025-08-07T20:31:00") → 정확한 파싱
+            //
+            // 🚨 한국 시간 문제:
+            // - UTC 기준으로 날짜가 하루 전으로 저장됨
+            // - 해결책: getKoreanTime() 함수로 UTC+9 적용
+            //
+            // 🔧 디버깅 팁:
+            // - 브라우저 콘솔에서 debugTime() 실행
+            // - Google Apps Script에서 simpleTest() 실행
+            // - 데이터 구조: [ID, 작성자, 내용, 작성시간, 좋아요, 익명여부]
+            //
+            // 📊 성능 최적화:
+            // - SpreadsheetApp.flush()로 강제 저장
+            // - 30초마다 자동 새로고침
+            // - 에러 처리 및 사용자 피드백
+
+            // ===== 설정 - 여기서 API URL만 변경하면 됨 =====
+            const API_URL =
+                "https://script.google.com/macros/s/AKfycbyR2r2Q7okbXL-rh75n3ge-40ML57FZfrK7d1ZztSGrw9tGUCPG5N1yybfvGAl6PrRTbA/exec";
+
+            // ===== 전역 변수 =====
+            let currentPage = 1; // 현재 페이지
+            let commentsPerPage = 10; // 페이지당 댓글 수
+            let allComments = []; // 전체 댓글 데이터
+
+            // ===== DOM 요소들 =====
+            const commentList = document.getElementById("commentList");
+            const commentInput = document.getElementById("commentInput");
+            const commentName = document.getElementById("commentName");
+            const anonymousCheck = document.getElementById("anonymousCheck");
+            const submitBtn = document.getElementById("submitComment");
+            const refreshBtn = document.getElementById("refreshComments");
+            const charCount = document.getElementById("charCount");
+            const messageDiv = document.getElementById("message");
+            const paginationDiv = document.getElementById("commentPagination");
+            const prevPageBtn = document.getElementById("prevPage");
+            const nextPageBtn = document.getElementById("nextPage");
+            const paginationInfo = document.getElementById("paginationInfo");
+
+            // ===== 초기화 함수 =====
+            // 페이지 로드 시 실행되는 메인 함수
+            function init() {
+                setupEventListeners(); // 이벤트 리스너 등록
+                loadComments(); // 댓글 목록 불러오기
+            }
+
+            // ===== 이벤트 리스너 설정 =====
+            // 모든 사용자 인터랙션에 대한 이벤트 처리
+            function setupEventListeners() {
+                // 댓글 작성 버튼 클릭
+                submitBtn.addEventListener("click", submitComment);
+
+                // 새로고침 버튼 클릭
+                refreshBtn.addEventListener("click", loadComments);
+
+                // 글자 수 카운트 (실시간)
+                commentInput.addEventListener("input", updateCharCount);
+
+                // 엔터키로 댓글 작성 (Shift+Enter는 줄바꿈)
+                commentInput.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        submitComment();
+                    }
+                });
+
+                // 페이지네이션 버튼
+                prevPageBtn.addEventListener("click", () => changePage(-1));
+                nextPageBtn.addEventListener("click", () => changePage(1));
+
+                // 익명 체크박스 변경
+                anonymousCheck.addEventListener(
+                    "change",
+                    handleAnonymousChange
+                );
+            }
+
+            // ===== 익명 체크박스 처리 =====
+            // 익명 체크 시 이름 입력란 비활성화
+            function handleAnonymousChange() {
+                const nameInput = document.getElementById("commentName");
+                if (anonymousCheck.checked) {
+                    nameInput.value = "익명";
+                    nameInput.disabled = true;
+                } else {
+                    nameInput.value = "";
+                    nameInput.disabled = false;
+                }
+            }
+
+            // ===== 글자 수 업데이트 =====
+            // 실시간으로 글자 수를 카운트
+            function updateCharCount() {
+                const count = commentInput.value.length;
+                charCount.textContent = count;
+            }
+
+            // ===== 댓글 작성 =====
+            // 사용자 입력을 검증하고 API로 댓글 추가
+            async function submitComment() {
+                // 입력값 검증
+                const content = commentInput.value.trim();
+                const author = commentName.value.trim() || "익명";
+
+                if (!content) {
+                    showMessage("댓글 내용을 입력해주세요.", "error");
+                    return;
+                }
+
+                // 버튼 비활성화 (중복 제출 방지)
+                submitBtn.disabled = true;
+                submitBtn.textContent = "작성 중...";
+
+                try {
+                    // API 호출 - 댓글 추가
+                    const response = await fetch(
+                        `${API_URL}?action=add&data=${encodeURIComponent(
+                            JSON.stringify({
+                                content: content,
+                                author: author,
+                                isAnonymous: anonymousCheck.checked,
+                            })
+                        )}`
+                    );
+
+                    const result = await response.json();
+
+                    if (result.status === "success") {
+                        showMessage("댓글이 작성되었습니다!", "success");
+
+                        // 폼 초기화
+                        commentInput.value = "";
+                        commentName.value = "";
+                        anonymousCheck.checked = false;
+                        handleAnonymousChange();
+                        updateCharCount();
+
+                        // 댓글 목록 새로고침
+                        loadComments();
+                    } else {
+                        showMessage(
+                            "댓글 작성 실패: " + result.message,
+                            "error"
+                        );
+                    }
+                } catch (error) {
+                    showMessage("네트워크 오류가 발생했습니다.", "error");
+                } finally {
+                    // 버튼 복원
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "댓글 작성";
+                }
+            }
+
+            // ===== 댓글 목록 불러오기 =====
+            // API에서 댓글 데이터를 가져와서 화면에 표시
+            async function loadComments() {
+                // 로딩 상태 표시
+                commentList.innerHTML =
+                    '<div class="loading">댓글을 불러오는 중...</div>';
+                refreshBtn.disabled = true;
+                refreshBtn.textContent = "로딩 중...";
+
+                try {
+                    // API 호출 - 댓글 목록 조회
+                    const response = await fetch(`${API_URL}?action=get`);
+                    const result = await response.json();
+
+                    if (result.status === "success") {
+                        allComments = result.comments || [];
+                        displayComments();
+                        showMessage(
+                            `${allComments.length}개의 댓글을 불러왔습니다.`,
+                            "success"
+                        );
+                    } else {
+                        commentList.innerHTML =
+                            '<div class="error">댓글을 불러올 수 없습니다: ' +
+                            result.message +
+                            "</div>";
+                    }
+                } catch (error) {
+                    commentList.innerHTML =
+                        '<div class="error">네트워크 오류가 발생했습니다.</div>';
+                } finally {
+                    // 버튼 복원
+                    refreshBtn.disabled = false;
+                    refreshBtn.textContent = "새로고침";
+                }
+            }
+
+            // ===== 댓글 표시 =====
+            // 현재 페이지에 해당하는 댓글들을 화면에 렌더링
+            function displayComments() {
+                const startIndex = (currentPage - 1) * commentsPerPage;
+                const endIndex = startIndex + commentsPerPage;
+                const pageComments = allComments.slice(startIndex, endIndex);
+
+                if (pageComments.length === 0) {
+                    commentList.innerHTML =
+                        '<div class="loading">댓글이 없습니다.</div>';
+                    paginationDiv.style.display = "none";
+                    return;
+                }
+
+                // 댓글 HTML 생성
+                const commentsHtml = pageComments
+                    .map(
+                        (comment) => `
+                <div class="comment-item">
+                    <div class="comment-author">${
+                        comment.isAnonymous
+                            ? "익명"
+                            : escapeHtml(comment.author)
+                    }</div>
+                    <div class="comment-content">${escapeHtml(
+                        comment.content
+                    )}</div>
+                    <div class="comment-time">${formatDate(
+                        comment.timestamp
+                    )}</div>
+                </div>
+            `
+                    )
+                    .join("");
+
+                commentList.innerHTML = commentsHtml;
+                updatePagination();
+            }
+
+            // ===== 페이지네이션 업데이트 =====
+            // 현재 페이지 정보와 버튼 상태를 업데이트
+            function updatePagination() {
+                const totalPages = Math.ceil(
+                    allComments.length / commentsPerPage
+                );
+
+                if (totalPages <= 1) {
+                    paginationDiv.style.display = "none";
+                    return;
+                }
+
+                paginationDiv.style.display = "flex";
+                prevPageBtn.disabled = currentPage <= 1;
+                nextPageBtn.disabled = currentPage >= totalPages;
+
+                const startItem = (currentPage - 1) * commentsPerPage + 1;
+                const endItem = Math.min(
+                    currentPage * commentsPerPage,
+                    allComments.length
+                );
+
+                paginationInfo.textContent = `${startItem}-${endItem} / ${allComments.length}`;
+            }
+
+            // ===== 페이지 변경 =====
+            // 이전/다음 페이지로 이동
+            function changePage(delta) {
+                const newPage = currentPage + delta;
+                const totalPages = Math.ceil(
+                    allComments.length / commentsPerPage
+                );
+
+                if (newPage >= 1 && newPage <= totalPages) {
+                    currentPage = newPage;
+                    displayComments();
+                }
+            }
+
+            // ===== 메시지 표시 =====
+            // 성공/오류 메시지를 화면에 표시 (5초 후 자동 제거)
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = type;
+
+                setTimeout(() => {
+                    messageDiv.textContent = "";
+                    messageDiv.className = "";
+                }, 5000);
+            }
+
+            // ===== HTML 이스케이프 =====
+            // XSS 공격 방지를 위한 HTML 특수문자 처리
+            function escapeHtml(text) {
+                const div = document.createElement("div");
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // ===== 날짜 포맷팅 =====
+            // ISO 날짜를 한국 시간 형식으로 변환
+            function formatDate(timestamp) {
+                const date = new Date(timestamp);
+                return date.toLocaleString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+            }
+
+            // ===== 페이지 로드 시 초기화 =====
+            document.addEventListener("DOMContentLoaded", init);
+        </script>
+    </body>
+</html>
